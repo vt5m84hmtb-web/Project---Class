@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Turma Connect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d0a1a;
+      --glass:    rgba(255,255,255,0.05);
+      --border:   rgba(255,255,255,0.10);
+      --border-h: rgba(160,110,255,0.50);
+      --purple:   #8b5cf6;
+      --purple2:  #a78bfa;
+      --text:     #e2d9f3;
+      --muted:    #7c6fa0;
+      --danger:   #f43f5e;
+      --glow:     0 0 40px rgba(139,92,246,0.25);
+      --card-r:   18px;
+    }
+
+    html, body { height:100%;font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden; }
+
+    /* ORBS */
+    .orb { position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;animation:orbFloat linear infinite; }
+    .orb1{width:500px;height:500px;background:rgba(139,92,246,.18);top:-120px;left:-100px;animation-duration:18s}
+    .orb2{width:380px;height:380px;background:rgba(236,72,153,.13);bottom:-80px;right:-80px;animation-duration:22s;animation-direction:reverse}
+    .orb3{width:260px;height:260px;background:rgba(109,40,217,.12);top:40%;left:55%;animation-duration:14s;animation-delay:-6s}
+    @keyframes orbFloat{0%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.06)}66%{transform:translate(-20px,25px) scale(.95)}100%{transform:translate(0,0) scale(1)}}
+
+    /* PARTÍCULAS */
+    #particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+    .particle{position:absolute;border-radius:50%;background:rgba(139,92,246,.5);animation:particleDrift linear infinite}
+    @keyframes particleDrift{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:.6}100%{transform:translateY(-20px) scale(1);opacity:0}}
+
+    .hidden{display:none !important}
+
+    /* GLASS */
+    .glass{background:var(--glass);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid var(--border);border-radius:var(--card-r);box-shadow:var(--glow),inset 0 1px 0 rgba(255,255,255,.08)}
+
+    /* INPUTS */
+    .input{width:100%;padding:13px 16px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Outfit',sans-serif;font-size:15px;outline:none;transition:border-color .3s,background .3s,box-shadow .3s,transform .2s}
+    .input:focus{border-color:var(--border-h);background:rgba(139,92,246,.08);box-shadow:0 0 0 3px rgba(139,92,246,.12);transform:translateY(-1px)}
+    .input::placeholder{color:var(--muted)}
+    textarea.input{resize:vertical;min-height:90px}
+
+    /* BOTÕES */
+    .btn{padding:13px 22px;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;cursor:pointer;letter-spacing:.3px;transition:all .25s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden}
+    .btn::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.18) 50%,transparent 70%);transform:translateX(-100%);transition:transform .5s}
+    .btn:hover::after{transform:translateX(100%)}
+    .btn-primary{background:linear-gradient(135deg,var(--purple),#6d28d9);color:#fff;box-shadow:0 4px 20px rgba(139,92,246,.40)}
+    .btn-primary:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 8px 32px rgba(139,92,246,.55)}
+    .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+    .btn-ghost:hover{border-color:var(--border-h);background:var(--glass);transform:translateY(-1px)}
+    .btn-danger{background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.28);color:var(--danger)}
+    .btn-danger:hover{background:rgba(244,63,94,.22);transform:translateY(-1px)}
+    .btn-sm{padding:7px 14px;font-size:13px;border-radius:8px}
+    .btn-full{width:100%}
+    .btn:active{transform:scale(.96) !important}
+    .label{font-size:13px;color:var(--muted);font-weight:500;margin-bottom:6px;display:block}
+
+    /* TOAST */
+    #toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(20,12,40,.96);border:1px solid var(--border-h);color:var(--text);padding:12px 24px;border-radius:12px;font-size:14px;z-index:9999;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s;backdrop-filter:blur(16px);white-space:nowrap;box-shadow:0 0 30px rgba(139,92,246,.3);opacity:0}
+    #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeBg .25s ease}
+    .modal{width:100%;max-width:430px;padding:28px;animation:modalPop .35s cubic-bezier(.34,1.56,.64,1)}
+    .modal-title{font-size:20px;font-weight:700;margin-bottom:20px}
+    @keyframes fadeBg{from{opacity:0}to{opacity:1}}
+    @keyframes modalPop{from{opacity:0;transform:scale(.85) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+    /* AUTH */
+    #page-auth{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;z-index:1}
+    .auth-card{width:100%;max-width:390px;padding:40px 36px;animation:authCardIn .7s cubic-bezier(.34,1.36,.64,1) both}
+    @keyframes authCardIn{from{opacity:0;transform:translateY(40px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+    .auth-logo{text-align:center;margin-bottom:32px}
+    .logo-icon{font-size:52px;display:block;margin-bottom:10px;animation:logoWiggle 3s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(139,92,246,.7))}
+    @keyframes logoWiggle{0%,100%{transform:rotate(-4deg) scale(1)}25%{transform:rotate(4deg) scale(1.08)}50%{transform:rotate(-2deg) scale(1.04)}75%{transform:rotate(3deg) scale(1.06)}}
+    .auth-logo h1{font-size:28px;font-weight:700;background:linear-gradient(135deg,#c084fc,#818cf8,#c084fc);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradShift 4s linear infinite}
+    @keyframes gradShift{0%{background-position:0% center}100%{background-position:200% center}}
+    .auth-logo p{font-size:13px;color:var(--muted);margin-top:4px;animation:fadeUp .8s .3s both}
+
+    .auth-tabs{display:flex;background:rgba(0,0,0,.3);border-radius:10px;padding:4px;margin-bottom:26px;gap:4px;animation:fadeUp .6s .2s both}
+    .auth-tab{flex:1;padding:10px;border:none;border-radius:8px;background:transparent;color:var(--muted);font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.34,1.36,.64,1)}
+    .auth-tab.active{background:linear-gradient(135deg,var(--purple),#6d28d9);color:#fff;box-shadow:0 2px 14px rgba(139,92,246,.45);transform:scale(1.02)}
+
+    .auth-form-panel{display:none;flex-direction:column;gap:16px}
+    .auth-form-panel.active{display:flex;animation:panelSlide .35s cubic-bezier(.34,1.2,.64,1)}
+    @keyframes panelSlide{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:translateX(0)}}
+    .auth-form-panel.active > *{animation:fadeUp .4s both}
+    .auth-form-panel.active > *:nth-child(1){animation-delay:.05s}
+    .auth-form-panel.active > *:nth-child(2){animation-delay:.12s}
+    .auth-form-panel.active > *:nth-child(3){animation-delay:.19s}
+    .auth-form-panel.active > *:nth-child(4){animation-delay:.26s}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .auth-footer{text-align:center;margin-top:18px;font-size:13px;color:var(--muted);animation:fadeUp .6s .5s both}
+
+    /* DASHBOARD */
+    #page-dashboard{min-height:100vh;position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 16px 90px}
+    #page-dashboard.entering{animation:dashIn .6s cubic-bezier(.34,1.2,.64,1) both}
+    @keyframes dashIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 0 14px;border-bottom:1px solid var(--border);margin-bottom:24px;gap:12px;animation:fadeDown .5s .1s both}
+    @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+    .topbar-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+    .topbar-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--purple),#6d28d9);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;flex-shrink:0;animation:avatarPulse 3s ease-in-out infinite;transition:transform .2s;cursor:default}
+    .topbar-avatar:hover{transform:scale(1.1) rotate(6deg)}
+    @keyframes avatarPulse{0%,100%{box-shadow:0 0 0 0 rgba(139,92,246,.4)}50%{box-shadow:0 0 0 9px rgba(139,92,246,0)}}
+    .topbar-info{min-width:0}
+    .topbar-name{font-size:15px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .topbar-sub{font-size:12px;color:var(--muted);margin-top:1px}
+    .logout-btn{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-family:'Outfit',sans-serif;transition:all .25s;flex-shrink:0}
+    .logout-btn:hover{border-color:var(--border-h);color:var(--text);transform:translateY(-1px)}
+    .logout-btn:active{transform:scale(.96)}
+
+    /* STATUS badge de conexão */
+    .conn-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 9px;border-radius:999px;font-weight:600;margin-left:6px;animation:fadeUp .5s both}
+    .conn-badge.online{background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3)}
+    .conn-badge.offline{background:rgba(244,63,94,.15);color:#f43f5e;border:1px solid rgba(244,63,94,.3)}
+    .conn-dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:connPulse 1.5s ease-in-out infinite}
+    @keyframes connPulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+    .publish-card{padding:22px;margin-bottom:24px;animation:fadeUp .5s .2s both;transition:box-shadow .3s}
+    .publish-card:focus-within{box-shadow:var(--glow),0 0 0 1px rgba(139,92,246,.3),inset 0 1px 0 rgba(255,255,255,.08)}
+    .publish-card h3{font-size:15px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+
+    .type-selector{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+    .type-chip{padding:6px 14px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Outfit',sans-serif;transition:all .25s cubic-bezier(.34,1.36,.64,1)}
+    .type-chip:hover{transform:translateY(-2px);border-color:var(--border-h)}
+    .type-chip.active{background:rgba(139,92,246,.18);border-color:var(--border-h);color:var(--purple2);transform:translateY(-2px) scale(1.04);box-shadow:0 4px 14px rgba(139,92,246,.2)}
+    .publish-actions{display:flex;gap:10px;margin-top:12px}
+
+    .filter-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;animation:fadeUp .5s .3s both}
+    .filter-chip{padding:7px 16px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Outfit',sans-serif;transition:all .25s cubic-bezier(.34,1.36,.64,1)}
+    .filter-chip:hover{transform:translateY(-2px);border-color:var(--border-h);color:var(--text)}
+    .filter-chip.active{background:rgba(139,92,246,.15);border-color:var(--border-h);color:var(--purple2);transform:translateY(-2px);box-shadow:0 4px 12px rgba(139,92,246,.2)}
+
+    #notices-list{display:flex;flex-direction:column;gap:14px}
+
+    .notice-card{padding:20px;position:relative;overflow:hidden;transition:border-color .25s,transform .25s,box-shadow .25s}
+    .notice-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--purple),#6d28d9);opacity:0;transition:opacity .3s;border-radius:3px 0 0 3px}
+    .notice-card:hover{border-color:rgba(139,92,246,.30);transform:translateY(-2px);box-shadow:var(--glow),inset 0 1px 0 rgba(255,255,255,.08)}
+    .notice-card:hover::before{opacity:1}
+    .notice-card.card-enter{animation:cardEnter .45s cubic-bezier(.34,1.2,.64,1) both}
+    @keyframes cardEnter{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+    .notice-card.card-exit{animation:cardExit .3s ease forwards}
+    @keyframes cardExit{to{opacity:0;transform:scale(.94) translateY(-8px);max-height:0;padding:0;margin:0}}
+
+    .notice-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+    .notice-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .notice-author{font-size:13px;font-weight:600;color:var(--purple2)}
+    .notice-time{font-size:12px;color:var(--muted)}
+    .notice-type-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin-top:6px;transition:transform .2s}
+    .notice-card:hover .notice-type-pill{transform:scale(1.05)}
+    .pill-aviso   {background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.25)}
+    .pill-prova   {background:rgba(244,63,94,.12); color:#f43f5e;border:1px solid rgba(244,63,94,.25)}
+    .pill-trabalho{background:rgba(34,197,94,.12); color:#22c55e;border:1px solid rgba(34,197,94,.25)}
+    .pill-atividade  {background:rgba(139,92,246,.12);color:var(--purple2);border:1px solid rgba(139,92,246,.25)}
+    .notice-actions{display:flex;gap:6px;flex-shrink:0}
+    .notice-body{font-size:15px;line-height:1.65;color:#d4cce8}
+    .publish-deadline{margin-top:12px}
+    .notice-deadline{margin-top:10px;font-size:12px;color:var(--text);display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.04)}
+    .notice-deadline.overdue{color:#fca5a5;border-color:rgba(244,63,94,.35);background:rgba(244,63,94,.12)}
+
+    .empty-state{text-align:center;padding:60px 20px;color:var(--muted);animation:fadeUp .5s both}
+    .empty-state .emoji{font-size:52px;display:block;margin-bottom:14px;animation:emptyBounce 2.5s ease-in-out infinite}
+    @keyframes emptyBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    .empty-state p{font-size:15px}
+
+    .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px;animation:fadeUp .5s .25s both}
+    .section-title{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px}
+    .count-badge{background:rgba(139,92,246,.2);color:var(--purple2);padding:2px 8px;border-radius:999px;font-size:12px;font-weight:600}
+    .count-badge.bump{animation:badgeBump .4s cubic-bezier(.34,1.56,.64,1)}
+    @keyframes badgeBump{0%{transform:scale(1)}40%{transform:scale(1.4)}100%{transform:scale(1)}}
+
+    /* Ripple */
+    .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.22);transform:scale(0);animation:rippleAnim .6s linear;pointer-events:none}
+    @keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+
+    /* Skeleton */
+    .skeleton{background:linear-gradient(90deg,rgba(255,255,255,.04) 25%,rgba(255,255,255,.10) 50%,rgba(255,255,255,.04) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:8px}
+    @keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+
+    @keyframes shake{0%,100%{transform:translateX(0) scale(1)}20%{transform:translateX(-8px) scale(1.01)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(4px)}}
+    @keyframes authOut{to{opacity:0;transform:scale(.96) translateY(-10px)}}
+
+    @media(max-width:480px){
+      .auth-card{padding:28px 22px}
+      .publish-actions{flex-direction:column}
+      .notice-actions .btn-sm span{display:none}
+    }
+  </style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+<div id="particles"></div>
+<div id="toast"></div>
+
+<!-- ══ AUTH ══ -->
+<div id="page-auth">
+  <div class="auth-card glass">
+    <div class="auth-logo">
+      <span class="logo-icon">🎓</span>
+      <h1>Turma Connect</h1>
+      <p>Avisos e atividades da sua turma</p>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')">Entrar</button>
+      <button class="auth-tab" onclick="switchTab('register')">Criar conta</button>
+    </div>
+    <div id="tab-login" class="auth-form-panel active">
+      <div><label class="label">Nome</label><input id="login-name" class="input" type="text" placeholder="Seu nome" autocomplete="username"/></div>
+      <div><label class="label">Senha</label><input id="login-pass" class="input" type="password" placeholder="••••••••" autocomplete="current-password"/></div>
+      <button class="btn btn-primary btn-full" onclick="doLogin()">Entrar</button>
+    </div>
+    <div id="tab-register" class="auth-form-panel">
+      <div><label class="label">Escolha um nome</label><input id="reg-name" class="input" type="text" placeholder="Seu nome"/></div>
+      <div><label class="label">Crie uma senha</label><input id="reg-pass" class="input" type="password" placeholder="Mínimo 4 caracteres"/></div>
+      <div><label class="label">Confirme a senha</label><input id="reg-pass2" class="input" type="password" placeholder="Repita a senha"/></div>
+      <button class="btn btn-primary btn-full" onclick="doRegister()">Criar conta</button>
+    </div>
+    <div class="auth-footer">Apenas membros da turma têm acesso 🔒</div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<div id="page-dashboard" class="hidden">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-avatar" id="dash-avatar">?</div>
+      <div class="topbar-info">
+        <div class="topbar-name" id="dash-name">—</div>
+        <div class="topbar-sub" id="dash-role">Aluno</div>
+      </div>
+      <span class="conn-badge online" id="conn-badge">
+        <span class="conn-dot"></span> supabase
+      </span>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">Sair</button>
+  </div>
+
+  <div id="admin-panel" class="glass publish-card hidden">
+    <h3>✏️ Publicar aviso, prova ou atividade</h3>
+    <div class="type-selector">
+      <button class="type-chip active" data-type="aviso"    onclick="selectType(this)">📢 Avisos</button>
+      <button class="type-chip"        data-type="prova"    onclick="selectType(this)">📝 Provas</button>
+      <button class="type-chip"        data-type="trabalho" onclick="selectType(this)">📁 Trabalhos</button>
+      <button class="type-chip"        data-type="atividade"   onclick="selectType(this)">📖 Atividades</button>
+    </div>
+    <textarea id="pub-text" class="input" placeholder="Digite o conteúdo..."></textarea>
+    <div id="deadline-wrap" class="publish-deadline hidden">
+      <label class="label" for="pub-deadline">Data de término</label>
+      <input id="pub-deadline" class="input" type="date" />
+    </div>
+    <div class="publish-actions">
+      <button id="pub-btn" class="btn btn-primary" style="flex:1" onclick="publishNotice()">Publicar</button>
+      <button class="btn btn-ghost" onclick="clearPublish()">Limpar</button>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-title">📋 Mural da Turma <span class="count-badge" id="notices-count">0</span></div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-chip active" data-filter="todos"    onclick="setFilter(this)">Todos</button>
+    <button class="filter-chip"        data-filter="aviso"    onclick="setFilter(this)">📢 Avisos</button>
+    <button class="filter-chip"        data-filter="prova"    onclick="setFilter(this)">📝 Provas</button>
+    <button class="filter-chip"        data-filter="trabalho" onclick="setFilter(this)">📁 Trabalhos</button>
+    <button class="filter-chip"        data-filter="atividade"   onclick="setFilter(this)">📖 Atividades</button>
+  </div>
+
+  <div id="notices-list"></div>
+</div>
+
+<!-- ══ MODAL ══ -->
+<div id="edit-modal" class="modal-overlay hidden">
+  <div class="modal glass">
+    <div class="modal-title">✏️ Editar publicação</div>
+    <textarea id="edit-text" class="input" style="min-height:110px;margin-bottom:16px"></textarea>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" style="flex:1" onclick="saveEdit()">Salvar</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   CONFIGURAÇÃO SUPABASE
+   ══════════════════════════════════════════════════════════ */
+const SUPABASE_URL  = "https://nxdknoqzclpmvhxnfmfx.supabase.co";
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54ZGtub3F6Y2xwbXZoeG5mbWZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzOTYzNDYsImV4cCI6MjA5MDk3MjM0Nn0.sqxj3TDjGSbEBo2hIZITD6locdOnuoto1y10wNf5_Qk";
+
+/* Headers padrão para todas as chamadas */
+const SB_HEADERS = {
+  "Content-Type":  "application/json",
+  "apikey":        SUPABASE_ANON,
+  "Authorization": `Bearer ${SUPABASE_ANON}`,
+  "Prefer":        "return=representation"
+};
+
+/* ── Helper: chama a API REST do Supabase ── */
+async function sbFetch(path, options = {}) {
+  const url = `${SUPABASE_URL}/rest/v1/${path}`;
+  const res = await fetch(url, {
+    ...options,
+    headers: { ...SB_HEADERS, ...(options.headers || {}) }
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `Erro ${res.status}`);
+  }
+  // DELETE retorna 204 sem body
+  if (res.status === 204) return null;
+  return res.json();
+}
+
+/* ══════════════════════════════════════════════════════════
+   CAMADA DE DADOS — DB
+   (Trocar os métodos aqui caso mude de backend)
+   ══════════════════════════════════════════════════════════ */
+const DB = {
+  /* ── USUÁRIOS ── */
+  async findUser(name) {
+    const rows = await sbFetch(`users?name=ilike.${encodeURIComponent(name)}&limit=1`);
+    return rows[0] || null;
+  },
+  async createUser(name, pass) {
+    const rows = await sbFetch("users", {
+      method: "POST",
+      body: JSON.stringify({ name, pass })
+    });
+    return rows[0];
+  },
+
+  /* ── AVISOS ── */
+  async getNotices() {
+    return sbFetch("notices?order=created_at.desc");
+  },
+  async createNotice(text, type, author, dueDate = null) {
+    const rows = await sbFetch("notices", {
+      method: "POST",
+      body: JSON.stringify({ text, type, author, due_date: dueDate || null })
+    });
+    return rows[0];
+  },
+  async updateNotice(id, text) {
+    const rows = await sbFetch(`notices?id=eq.${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ text, edited: true })
+    });
+    return rows[0];
+  },
+  async deleteNotice(id) {
+    return sbFetch(`notices?id=eq.${id}`, { method: "DELETE" });
+  },
+
+  /* ── SESSÃO (local — apenas nome, sem dados sensíveis) ── */
+  getSession()   { return JSON.parse(localStorage.getItem("tc_session") || "null"); },
+  saveSession(u) { localStorage.setItem("tc_session", JSON.stringify(u)); },
+  clearSession() { localStorage.removeItem("tc_session"); }
+};
+
+/* ══════════════════════════════════════════════════════════
+   ESTADO GLOBAL
+   ══════════════════════════════════════════════════════════ */
+const ADMIN_USERS = ["representante", "admin", "monitor", "delegado"];
+
+let currentUser   = null;
+let notices       = [];
+let currentFilter = "todos";
+let editingId     = null;
+let selectedType  = "aviso";
+
+/* ── Partículas ── */
+(function() {
+  const c = document.getElementById("particles");
+  for (let i = 0; i < 24; i++) {
+    const p = document.createElement("div");
+    p.className = "particle";
+    const sz = Math.random() * 4 + 2;
+    p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;`
+      + `animation-duration:${Math.random()*14+8}s;animation-delay:${Math.random()*-18}s;`
+      + `opacity:${Math.random()*.5+.2}`;
+    c.appendChild(p);
+  }
+})();
+
+/* ── Ripple ── */
+document.addEventListener("click", e => {
+  const btn = e.target.closest(".btn");
+  if (!btn) return;
+  const r = document.createElement("span");
+  r.className = "ripple";
+  const rect = btn.getBoundingClientRect();
+  const sz = Math.max(rect.width, rect.height) * 2;
+  r.style.cssText = `width:${sz}px;height:${sz}px;left:${e.clientX-rect.left-sz/2}px;top:${e.clientY-rect.top-sz/2}px`;
+  btn.appendChild(r);
+  r.addEventListener("animationend", () => r.remove());
+});
+
+/* ══════════════════════════════════════════════════════════
+   INIT
+   ══════════════════════════════════════════════════════════ */
+window.addEventListener("DOMContentLoaded", () => {
+  const s = DB.getSession();
+  if (s) loginUser(s.name);
+
+  ["login-name","login-pass"].forEach(id =>
+    document.getElementById(id).addEventListener("keydown", e => { if(e.key==="Enter") doLogin(); })
+  );
+  ["reg-name","reg-pass","reg-pass2"].forEach(id =>
+    document.getElementById(id).addEventListener("keydown", e => { if(e.key==="Enter") doRegister(); })
+  );
+});
+
+/* ══════════════════════════════════════════════════════════
+   AUTH
+   ══════════════════════════════════════════════════════════ */
+function switchTab(tab) {
+  document.querySelectorAll(".auth-tab").forEach((el,i) =>
+    el.classList.toggle("active", (i===0)===(tab==="login"))
+  );
+  document.getElementById("tab-login").classList.toggle("active", tab==="login");
+  document.getElementById("tab-register").classList.toggle("active", tab!=="login");
+}
+
+function shakeCard() {
+  const c = document.querySelector(".auth-card");
+  c.style.animation = "none"; c.offsetHeight;
+  c.style.animation = "shake .4s ease";
+  c.addEventListener("animationend", () => c.style.animation = "", { once: true });
+}
+
+/* ── CADASTRO ── */
+async function doRegister() {
+  const name  = document.getElementById("reg-name").value.trim();
+  const pass  = document.getElementById("reg-pass").value;
+  const pass2 = document.getElementById("reg-pass2").value;
+  if (!name)           { shakeCard(); return toast("Digite um nome."); }
+  if (name.length < 2) { shakeCard(); return toast("Nome muito curto."); }
+  if (pass.length < 4) { shakeCard(); return toast("Senha com ao menos 4 caracteres."); }
+  if (pass !== pass2)  { shakeCard(); return toast("As senhas não conferem."); }
+
+  setBtnLoading("reg-btn", true, "Criando conta...");
+  try {
+    const existing = await DB.findUser(name);
+    if (existing) { shakeCard(); return toast("Esse nome já está em uso."); }
+    await DB.createUser(name, pass);
+    toast("Conta criada! Faça login. ✅");
+    switchTab("login");
+    document.getElementById("login-name").value = name;
+  } catch(e) {
+    shakeCard(); toast("Erro ao criar conta: " + e.message);
+  } finally {
+    setBtnLoading("reg-btn", false, "Criar conta");
+  }
+}
+
+/* ── LOGIN ── */
+async function doLogin() {
+  const name = document.getElementById("login-name").value.trim();
+  const pass = document.getElementById("login-pass").value;
+  if (!name || !pass) { shakeCard(); return toast("Preencha todos os campos."); }
+
+  setBtnLoading("login-btn", true, "Entrando...");
+  try {
+    const user = await DB.findUser(name);
+    if (!user || user.pass !== pass) { shakeCard(); return toast("Nome ou senha incorretos."); }
+    loginUser(user.name);
+  } catch(e) {
+    shakeCard(); toast("Erro de conexão: " + e.message);
+    setConnBadge(false);
+  } finally {
+    setBtnLoading("login-btn", false, "Entrar");
+  }
+}
+
+function loginUser(name) {
+  const isAdmin = ADMIN_USERS.some(a => a.toLowerCase()===name.toLowerCase());
+  currentUser = { name, isAdmin };
+  DB.saveSession(currentUser);
+
+  document.getElementById("dash-name").textContent   = name;
+  document.getElementById("dash-role").textContent   = isAdmin ? "Representante (Admin)" : "Aluno";
+  document.getElementById("dash-avatar").textContent = name[0].toUpperCase();
+  document.getElementById("admin-panel").classList.toggle("hidden", !isAdmin);
+
+  const auth = document.getElementById("page-auth");
+  const dash = document.getElementById("page-dashboard");
+
+  auth.style.animation = "authOut .35s ease forwards";
+  auth.addEventListener("animationend", () => {
+    auth.classList.add("hidden"); auth.style.animation = "";
+    dash.classList.remove("hidden"); dash.classList.add("entering");
+    dash.addEventListener("animationend", () => dash.classList.remove("entering"), { once: true });
+  }, { once: true });
+
+  showSkeletons();
+  loadNotices();
+}
+
+function doLogout() {
+  const dash = document.getElementById("page-dashboard");
+  dash.style.animation = "authOut .3s ease forwards";
+  dash.addEventListener("animationend", () => {
+    dash.classList.add("hidden"); dash.style.animation = "";
+    currentUser = null; DB.clearSession();
+    const auth = document.getElementById("page-auth");
+    auth.classList.remove("hidden");
+    auth.style.animation = "authCardIn .5s cubic-bezier(.34,1.36,.64,1) both";
+    auth.addEventListener("animationend", () => auth.style.animation = "", { once: true });
+    document.getElementById("login-pass").value = "";
+    toast("Até logo! 👋");
+  }, { once: true });
+}
+
+/* ══════════════════════════════════════════════════════════
+   AVISOS
+   ══════════════════════════════════════════════════════════ */
+async function loadNotices() {
+  try {
+    notices = await DB.getNotices();
+    setConnBadge(true);
+    renderNotices(true);
+  } catch(e) {
+    setConnBadge(false);
+    toast("Erro ao carregar avisos.");
+    document.getElementById("notices-list").innerHTML =
+      `<div class="empty-state"><span class="emoji">⚠️</span><p>Não foi possível carregar. Verifique sua conexão.</p></div>`;
+  }
+}
+
+function showSkeletons() {
+  document.getElementById("notices-list").innerHTML = [1,2,3].map(() => `
+    <div class="glass" style="padding:20px;border-radius:18px">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px">
+        <div class="skeleton" style="width:80px;height:14px"></div>
+        <div class="skeleton" style="width:50px;height:14px"></div>
+      </div>
+      <div class="skeleton" style="width:100%;height:14px;margin-bottom:8px"></div>
+      <div class="skeleton" style="width:70%;height:14px"></div>
+    </div>`).join("");
+}
+
+function selectType(el) {
+  document.querySelectorAll(".type-chip").forEach(c => c.classList.remove("active"));
+  el.classList.add("active");
+  selectedType = el.dataset.type;
+  toggleDeadlineInput();
+}
+
+async function publishNotice() {
+  if (!currentUser?.isAdmin) return;
+  const text = document.getElementById("pub-text").value.trim();
+  const dueDate = document.getElementById("pub-deadline").value;
+  const effectiveDueDate = requiresDeadline(selectedType) ? dueDate : null;
+  if (!text) return toast("Escreva algo antes de publicar.");
+  if (requiresDeadline(selectedType) && !dueDate) {
+    return toast("Informe a data de término para provas, trabalhos e atividades.");
+  }
+
+  setBtnLoading("pub-btn", true, "Publicando...");
+  try {
+    const notice = await DB.createNotice(text, selectedType, currentUser.name, effectiveDueDate || null);
+    notices.unshift(notice);
+    renderNotices(true);
+    clearPublish();
+    toast("Publicado! 🎉");
+    bumpCount();
+  } catch(e) {
+    toast("Erro ao publicar: " + e.message);
+  } finally {
+    setBtnLoading("pub-btn", false, "Publicar");
+  }
+}
+
+function clearPublish() {
+  document.getElementById("pub-text").value = "";
+  document.getElementById("pub-deadline").value = "";
+}
+
+function bumpCount() {
+  const el = document.getElementById("notices-count");
+  el.classList.remove("bump"); el.offsetHeight; el.classList.add("bump");
+  el.addEventListener("animationend", () => el.classList.remove("bump"), { once: true });
+}
+
+function openEdit(id) {
+  const n = notices.find(x => x.id===id);
+  if (!n) return;
+  editingId = id;
+  document.getElementById("edit-text").value = n.text;
+  document.getElementById("edit-modal").classList.remove("hidden");
+}
+
+async function saveEdit() {
+  const text = document.getElementById("edit-text").value.trim();
+  if (!text) return toast("O texto não pode estar vazio.");
+  try {
+    const updated = await DB.updateNotice(editingId, text);
+    const idx = notices.findIndex(x => x.id===editingId);
+    if (idx !== -1) notices[idx] = updated;
+    renderNotices(false);
+    closeModal();
+    toast("Aviso atualizado ✅");
+  } catch(e) {
+    toast("Erro ao salvar: " + e.message);
+  }
+}
+
+function closeModal() {
+  const m = document.getElementById("edit-modal");
+  m.style.animation = "fadeBg .2s ease reverse forwards";
+  m.addEventListener("animationend", () => {
+    m.classList.add("hidden"); m.style.animation = ""; editingId = null;
+  }, { once: true });
+}
+
+async function deleteNotice(id) {
+  if (!confirm("Excluir esta publicação?")) return;
+  const card = document.querySelector(`[data-id="${id}"]`);
+  const doDelete = async () => {
+    try {
+      await DB.deleteNotice(id);
+      notices = notices.filter(x => x.id!==id);
+      renderNotices(false);
+      toast("Publicação excluída.");
+      bumpCount();
+    } catch(e) {
+      toast("Erro ao excluir: " + e.message);
+    }
+  };
+  if (card) {
+    card.classList.add("card-exit");
+    card.addEventListener("animationend", doDelete, { once: true });
+  } else {
+    doDelete();
+  }
+}
+
+function setFilter(el) {
+  document.querySelectorAll(".filter-chip").forEach(c => c.classList.remove("active"));
+  el.classList.add("active");
+  currentFilter = el.dataset.filter;
+  renderNotices(true);
+}
+
+function requiresDeadline(type) {
+  return type === "prova" || type === "trabalho" || type === "atividade";
+}
+
+
+function toggleDeadlineInput() {
+  const wrap = document.getElementById("deadline-wrap");
+  const input = document.getElementById("pub-deadline");
+  if (!wrap) return;
+  const shouldShow = requiresDeadline(selectedType);
+  wrap.classList.toggle("hidden", !shouldShow);
+  if (!shouldShow && input) input.value = "";
+}
+
+/* ══════════════════════════════════════════════════════════
+   RENDER
+   ══════════════════════════════════════════════════════════ */
+const TYPE_CONFIG = {
+  aviso:    { emoji:"📢", label:"Aviso",    pill:"pill-aviso"    },
+  prova:    { emoji:"📝", label:"Prova",    pill:"pill-prova"    },
+  trabalho: { emoji:"📁", label:"Trabalho", pill:"pill-trabalho" },
+  atividade:   { emoji:"📖", label:"Atividade",   pill:"pill-atividade"   },
+};
+
+function renderNotices(animate) {
+  const list     = document.getElementById("notices-list");
+  const filtered = currentFilter==="todos" ? notices : notices.filter(n => n.type===currentFilter);
+  document.getElementById("notices-count").textContent = filtered.length;
+
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty-state"><span class="emoji">📭</span><p>Nenhuma publicação aqui ainda.</p></div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map((n, i) => {
+    const cfg   = TYPE_CONFIG[n.type] || TYPE_CONFIG.aviso;
+    const rel   = relativeTime(new Date(n.created_at));
+    const dueDateIso = normalizeDateIso(n.due_date);
+    const deadlineText = dueDateIso ? formatDatePtBr(dueDateIso) : "";
+    const deadlineInfo = dueDateIso
+      ? `<div class="notice-deadline ${isPastDue(dueDateIso) ? "overdue" : ""}">⏳ Término: ${deadlineText}</div>`
+      : "";
+    const delay = animate ? `animation-delay:${i*.07}s` : "animation:none";
+    const admin = currentUser?.isAdmin ? `
+      <button class="btn btn-ghost btn-sm" onclick="openEdit('${n.id}')">✏️ <span>Editar</span></button>
+      <button class="btn btn-danger btn-sm" onclick="deleteNotice('${n.id}')">🗑 <span>Excluir</span></button>` : "";
+    return `
+      <div class="notice-card glass card-enter" data-id="${n.id}" style="${delay}">
+        <div class="notice-header">
+          <div>
+            <div class="notice-meta">
+              <span class="notice-author">${esc(n.author)}</span>
+              <span class="notice-time">${rel}</span>
+              ${n.edited?'<span style="font-size:11px;color:var(--muted)">(editado)</span>':""}
+            </div>
+            <span class="notice-type-pill ${cfg.pill}">${cfg.emoji} ${cfg.label}</span>
+          </div>
+          <div class="notice-actions">${admin}</div>
+        </div>
+        <div class="notice-body">${esc(n.text).replace(/\n/g,"<br>")}</div>
+        ${deadlineInfo}
+      </div>`;
+  }).join("");
+}
+
+/* ══════════════════════════════════════════════════════════
+   UTILITÁRIOS
+   ══════════════════════════════════════════════════════════ */
+function esc(s) {
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function relativeTime(d) {
+  const diff=Date.now()-d.getTime(), m=Math.floor(diff/60000), h=Math.floor(m/60), dy=Math.floor(h/24);
+  if(m<1) return "agora mesmo";
+  if(m<60) return `há ${m} min`;
+  if(h<24) return `há ${h}h`;
+  if(dy<7) return `há ${dy} dia${dy>1?"s":""}`;
+  return d.toLocaleDateString("pt-BR");
+}
+
+function normalizeDateIso(value) {
+  if (!value || typeof value !== "string") return "";
+  const iso = value.slice(0, 10);
+  return /^\d{4}-\d{2}-\d{2}$/.test(iso) ? iso : "";
+}
+
+function formatDatePtBr(isoDate) {
+  const [year, month, day] = isoDate.split("-");
+  return `${day}/${month}/${year}`;
+}
+
+function getTodayIso() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function isPastDue(isoDate) {
+  return isoDate < getTodayIso();
+}
+
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 3200);
+}
+
+function setBtnLoading(id, loading, label) {
+  const btn = document.getElementById(id);
+  if (!btn) return;
+  btn.disabled    = loading;
+  btn.textContent = label;
+  btn.style.opacity = loading ? ".7" : "1";
+}
+
+function setConnBadge(online) {
+  const b = document.getElementById("conn-badge");
+  if (!b) return;
+  b.className = `conn-badge ${online ? "online" : "offline"}`;
+  b.innerHTML = `<span class="conn-dot"></span> ${online ? "Supabase" : "Offline"}`;
+}
+
+/* IDs dinâmicos para botões de login/cadastro */
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector("#tab-login .btn-primary").id    = "login-btn";
+  document.querySelector("#tab-register .btn-primary").id = "reg-btn";
+  toggleDeadlineInput();
+});
+
+document.getElementById("edit-modal").addEventListener("click", function(e) {
+  if (e.target===this) closeModal();
+});
+    </script>
+  </body>
+</html>
+
