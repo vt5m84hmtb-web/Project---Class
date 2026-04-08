@@ -1,0 +1,17 @@
+{
+  "name": "turma-connect-server",
+  "version": "1.0.0",
+  "description": "Server for push notifications",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "serve": "npx http-server . -p 8080"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "web-push": "^3.6.3"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
