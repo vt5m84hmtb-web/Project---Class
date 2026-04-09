@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <link rel="manifest" href="manifest.json" />
   <title>Turma Connect</title>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <style>
@@ -229,23 +228,23 @@
   text-align: center;
   margin-bottom: 10px;
 
-  /* ALTERAÇÃO PRINCIPAL */
-  height: 180px;          /* reserva espaço fixo */
-  position: relative;     /* permite controle interno */
+  height: 180px;
+  position: relative;
 }
 
 .logo-img {
-  width: 500px;           /* você pode ajustar este valor */
+  width: 380px;
   height: auto;
+  max-width: none;
 
   display: block;
-  margin: 0 auto 10px;
 
-  /* mantém dentro da área sem empurrar nada */
   position: absolute;
-  top: -40%;
-  left: 47%;
-  transform: translateX(-50%);
+
+  /* CENTRALIZA NO MEIO DO ESPAÇO */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
   filter: drop-shadow(0 0 28px rgba(100,120,255,0.7));
   animation: logoFloat 3.5s ease-in-out infinite;
@@ -253,12 +252,12 @@
 
 @keyframes logoFloat {
   0%,100% {
-    transform: translateX(-50%) translateY(0) scale(1);
+    transform: translate(-50%, -50%) translateY(0) scale(1);
     filter: drop-shadow(0 0 28px rgba(100,120,255,0.7));
   }
 
   50% {
-    transform: translateX(-50%) translateY(-8px) scale(1.04);
+    transform: translate(-50%, -50%) translateY(-8px) scale(1.04);
     filter: drop-shadow(0 0 42px rgba(140,100,255,0.95));
   }
 }
@@ -632,7 +631,7 @@
 
     @media(max-width:480px){
       .auth-card { padding: 28px 20px; }
-      .logo-img { width: 190px; }
+      .logo-img { width: none; }
       .publish-actions { flex-direction: column; }
       .notice-actions .btn-sm span { display: none; }
       .filter-bar { gap: 6px; }
@@ -659,7 +658,7 @@
   <div id="page-auth">
     <div class="auth-card glass">
       <div class="auth-logo">
-        <img src="logomarca.png" alt="Logo da turma" class="logo-img" />
+        <img src="logo.png" alt="Logo da turma" class="logo-img" />
       </div>
       <div class="auth-tabs">
         <button class="auth-tab active" onclick="switchTab('login')">Entrar</button>
@@ -934,8 +933,6 @@
         dash.addEventListener("animationend",()=>dash.classList.remove("entering"),{once:true});
       },{once:true});
       showSkeletons(); loadNotices(); loadBooks(); loadSuggestions();
-      // Registrar Service Worker e Push Notifications
-      registerServiceWorker();
     }
 
     function doLogout(){
@@ -988,8 +985,6 @@
       try{
         const notice=await DB.createNotice(text,selectedType,currentUser.name,effectiveDueDate||null);
         notices.unshift(notice); renderNotices(true); clearPublish(); toast("Publicado! 🎉"); bumpCount();
-        // Enviar notificação push
-        sendPushNotification(`Nova ${TYPE_CONFIG[selectedType]?.label || 'publicação'}`, text.substring(0, 100) + (text.length > 100 ? '...' : ''));
       }catch(e){ toast("Erro ao publicar: "+e.message); }
       finally{ setBtnLoading("pub-btn",false,"Publicar"); }
     }
@@ -1304,56 +1299,12 @@
     function setBtnLoading(id,loading,label){ const btn=document.getElementById(id); if(!btn) return; btn.disabled=loading; btn.textContent=label; btn.style.opacity=loading?".7":"1"; }
     function setConnBadge(online){ /* badge removed */ }
 
-    function registerServiceWorker() {
-      if ('serviceWorker' in navigator && 'PushManager' in window) {
-        navigator.serviceWorker.register('sw.js')
-          .then(registration => {
-            console.log('SW registrado', registration);
-            return registration.update();
-          })
-          .then(() => {
-            return navigator.serviceWorker.ready;
-          })
-          .then(registration => {
-            subscribeToPush(registration);
-          })
-          .catch(err => console.error('Erro no SW', err));
-      }
-    }
-
-    function subscribeToPush(registration) {
-      registration.pushManager.getSubscription()
-        .then(subscription => {
-          if (subscription) {
-            console.log('Já inscrito', subscription);
-            return;
-          }
-          return registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: urlBase64ToUint8Array('BF_Z3N6ADy35bdj4T91GAKbAhArtSMi-cTWt12bLxTq4FfIq2APK5ObX9Jfjx3l4PsjANwtWFjC9xiXBtdfvBH4')
-          });
-        })
-        .then(subscription => {
-          if (subscription) {
-            console.log('Inscrito para push', subscription);
-            // Enviar subscription para o servidor
-            fetch('http://localhost:3000/subscribe', {
-              method: 'POST',
-              body: JSON.stringify(subscription),
-              headers: { 'Content-Type': 'application/json' }
-            });
-          }
-        })
-        .catch(err => console.error('Erro na inscrição push', err));
-    }
-
-    function sendPushNotification(title, body) {
-      fetch('http://localhost:3000/send-notification', {
-        method: 'POST',
-        body: JSON.stringify({ title, body }),
-        headers: { 'Content-Type': 'application/json' }
-      }).catch(err => console.error('Erro ao enviar notificação', err));
-    }
+    document.addEventListener("DOMContentLoaded",()=>{
+      document.querySelector("#tab-login .btn-primary").id="login-btn";
+      document.querySelector("#tab-register .btn-primary").id="reg-btn";
+      toggleDeadlineInput();
+    });
+    document.getElementById("edit-modal").addEventListener("click",function(e){ if(e.target===this) closeModal(); });
   </script>
 </body>
 </html>
