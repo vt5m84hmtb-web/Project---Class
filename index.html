@@ -32,37 +32,19 @@
       overflow-x: hidden;
     }
 
-    /* ══ GIF BACKGROUND ══ */
     #bg-video {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 0;
-      opacity: 0.45;
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; z-index: 0; opacity: 0.45;
       filter: saturate(1.4) hue-rotate(10deg);
     }
-
     #bg-overlay {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: radial-gradient(ellipse at 50% 80%, rgba(80,20,180,0.35) 0%, rgba(6,4,16,0.85) 70%);
       z-index: 1;
     }
 
-    /* ══ PARTÍCULAS ══ */
-    #particles {
-      position: fixed; inset: 0;
-      pointer-events: none; z-index: 2;
-      overflow: hidden;
-      width: 100vw; height: 100vh;
-    }
-    .particle {
-      position: absolute; border-radius: 50%;
-      background: rgba(160,100,255,0.6);
-      animation: particleDrift linear infinite;
-    }
+    #particles { position: fixed; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; width: 100vw; height: 100vh; }
+    .particle { position: absolute; border-radius: 50%; background: rgba(160,100,255,0.6); animation: particleDrift linear infinite; }
     @keyframes particleDrift {
       0%   { transform: translateY(110vh) scale(0); opacity: 0; }
       10%  { opacity: 1; }
@@ -70,7 +52,6 @@
       100% { transform: translateY(-30px) scale(1); opacity: 0; }
     }
 
-    /* ══ GLASS ══ */
     .glass {
       background: var(--glass);
       backdrop-filter: blur(28px) saturate(1.5);
@@ -82,261 +63,137 @@
 
     .hidden { display: none !important; }
 
-    /* ══ INPUTS ══ */
     .input {
-      width: 100%;
-      padding: 14px 18px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      color: var(--text);
-      font-family: 'Sora', sans-serif;
-      font-size: 14px;
-      outline: none;
-      margin-bottom: 14px;
+      width: 100%; padding: 14px 18px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; color: var(--text); font-family: 'Sora', sans-serif;
+      font-size: 14px; outline: none; margin-bottom: 14px;
       transition: all 0.35s cubic-bezier(.34,1.2,.64,1);
     }
     .input:focus {
-      border-color: var(--border-h);
-      background: rgba(139,92,246,0.1);
+      border-color: var(--border-h); background: rgba(139,92,246,0.1);
       box-shadow: 0 0 0 3px rgba(139,92,246,0.15), 0 0 20px rgba(139,92,246,0.1);
       transform: translateY(-1px);
     }
     .input::placeholder { color: var(--muted); }
     textarea.input { resize: vertical; min-height: 90px; }
 
-    /* ══ BOTÕES ══ */
     .btn {
-      padding: 14px 24px;
-      border: none; border-radius: 12px;
-      font-family: 'Sora', sans-serif;
-      font-size: 14px; font-weight: 700;
+      padding: 14px 24px; border: none; border-radius: 12px;
+      font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 700;
       cursor: pointer; letter-spacing: 0.5px;
       transition: all 0.3s cubic-bezier(.34,1.56,.64,1);
       position: relative; overflow: hidden;
     }
     .btn::after {
-      content: '';
-      position: absolute; inset: 0;
+      content: ''; position: absolute; inset: 0;
       background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
-      transform: translateX(-100%);
-      transition: transform 0.6s;
+      transform: translateX(-100%); transition: transform 0.6s;
     }
     .btn:hover::after { transform: translateX(100%); }
     .btn-primary {
       background: linear-gradient(135deg, #9333ea, #6d28d9, #7c3aed);
-      background-size: 200% auto;
-      color: #fff;
+      background-size: 200% auto; color: #fff;
       box-shadow: 0 4px 25px rgba(139,92,246,0.45), inset 0 1px 0 rgba(255,255,255,0.15);
       animation: gradShiftBtn 4s linear infinite;
     }
-    @keyframes gradShiftBtn {
-      0%   { background-position: 0% center; }
-      100% { background-position: 200% center; }
-    }
-    .btn-primary:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 10px 40px rgba(139,92,246,0.65), inset 0 1px 0 rgba(255,255,255,0.15);
-    }
-    .btn-ghost {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
+    @keyframes gradShiftBtn { 0%{background-position:0% center;} 100%{background-position:200% center;} }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 40px rgba(139,92,246,0.65), inset 0 1px 0 rgba(255,255,255,0.15); }
+    .btn-ghost { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text); }
     .btn-ghost:hover { border-color: var(--border-h); background: rgba(139,92,246,0.08); transform: translateY(-1px); }
-    .btn-danger {
-      background: rgba(244,63,94,0.1);
-      border: 1px solid rgba(244,63,94,0.25);
-      color: var(--danger);
-    }
+    .btn-danger { background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.25); color: var(--danger); }
     .btn-danger:hover { background: rgba(244,63,94,0.2); transform: translateY(-1px); }
     .btn-sm { padding: 7px 14px; font-size: 12px; border-radius: 9px; }
     .btn-full { width: 100%; }
     .btn:active { transform: scale(0.95) !important; }
     .label { font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 7px; display: block; letter-spacing: 0.5px; text-transform: uppercase; }
 
-    /* ══ TOAST ══ */
     #toast {
       position: fixed; bottom: 30px; left: 50%;
       transform: translateX(-50%) translateY(120px);
-      background: rgba(25,12,55,0.97);
-      border: 1px solid rgba(160,100,255,0.4);
-      color: var(--text); padding: 13px 28px;
-      border-radius: 14px; font-size: 13px; font-weight: 500;
-      z-index: 9999;
+      background: rgba(25,12,55,0.97); border: 1px solid rgba(160,100,255,0.4);
+      color: var(--text); padding: 13px 28px; border-radius: 14px;
+      font-size: 13px; font-weight: 500; z-index: 9999;
       transition: transform 0.45s cubic-bezier(.34,1.56,.64,1), opacity 0.3s;
-      backdrop-filter: blur(20px);
-      white-space: nowrap;
-      box-shadow: 0 0 40px rgba(139,92,246,0.35);
-      opacity: 0;
+      backdrop-filter: blur(20px); white-space: nowrap;
+      box-shadow: 0 0 40px rgba(139,92,246,0.35); opacity: 0;
     }
     #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-    /* ══ MODAL ══ */
+
+
     .modal-overlay {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(10px);
-      z-index: 100;
-      display: flex; align-items: center; justify-content: center;
-      padding: 20px;
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px); z-index: 100;
+      display: flex; align-items: center; justify-content: center; padding: 20px;
       animation: fadeBg .25s ease;
     }
     .modal { width: 100%; max-width: 430px; padding: 30px; animation: modalPop .4s cubic-bezier(.34,1.56,.64,1); }
     .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
-    @keyframes fadeBg { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes modalPop {
-      from { opacity: 0; transform: scale(.8) translateY(30px); }
-      to   { opacity: 1; transform: scale(1) translateY(0); }
-    }
+    @keyframes fadeBg { from{opacity:0;} to{opacity:1;} }
+    @keyframes modalPop { from{opacity:0;transform:scale(.8) translateY(30px);} to{opacity:1;transform:scale(1) translateY(0);} }
 
-    /* ══ AUTH PAGE ══ */
     #page-auth {
-      min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
-      padding: 20px;
-      position: relative; z-index: 3;
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 20px; position: relative; z-index: 3;
     }
-
-    .auth-card {
-      width: 100%; max-width: 400px;
-      padding: 44px 38px;
-      animation: authCardIn 0.9s cubic-bezier(.34,1.2,.64,1) both;
-      position: relative;
-    }
-
-    /* Brilho nas bordas do card */
+    .auth-card { width: 100%; max-width: 400px; padding: 44px 38px; animation: authCardIn 0.9s cubic-bezier(.34,1.2,.64,1) both; position: relative; }
     .auth-card::before {
-      content: '';
-      position: absolute; inset: -1px;
+      content: ''; position: absolute; inset: -1px;
       border-radius: calc(var(--card-r) + 1px);
       background: linear-gradient(135deg, rgba(160,100,255,0.4), transparent 40%, rgba(100,50,200,0.3));
-      z-index: -1;
-      animation: borderGlow 4s ease-in-out infinite;
+      z-index: -1; animation: borderGlow 4s ease-in-out infinite;
     }
-    @keyframes borderGlow {
-      0%,100% { opacity: 0.6; }
-      50%      { opacity: 1; }
+    @keyframes borderGlow { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
+    @keyframes authCardIn { from{opacity:0;transform:translateY(60px) scale(0.9);} to{opacity:1;transform:translateY(0) scale(1);} }
+
+    .auth-logo { text-align: center; margin-bottom: 10px; height: 180px; position: relative; }
+    .logo-img {
+      width: 380px; height: auto; max-width: none; pointer-events: none;
+      display: block; position: relative; top: 50%; left: 48%;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 0 28px rgba(100,120,255,0.7));
+      animation: logoFloat 3.5s ease-in-out infinite;
     }
-
-    @keyframes authCardIn {
-      from { opacity: 0; transform: translateY(60px) scale(0.9); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
+    @keyframes logoFloat {
+      0%,100%{transform:translate(-50%,-50%) translateY(0) scale(1);filter:drop-shadow(0 0 28px rgba(100,120,255,0.7));}
+      50%{transform:translate(-50%,-50%) translateY(-8px) scale(1.04);filter:drop-shadow(0 0 42px rgba(140,100,255,0.95));}
     }
-/* Logo */
-.auth-logo {
-  text-align: center;
-  margin-bottom: 10px;
+    .auth-logo p { font-size: 13px; color: var(--muted); margin-top: 4px; font-weight: 400; }
 
-  height: 180px;
-  position: relative;
-}
-
-.logo-img {
-  width: 380px;
-  height: auto;
-  max-width: none;
-  pointer-events: none;
-
-  display: block;
-
-  position: relative;
-
-  /* CENTRALIZA NO MEIO DO ESPAÇO */
-  top: 50%;
-  left: 48%;
-  transform: translate(-50%, -50%);
-
-  filter: drop-shadow(0 0 28px rgba(100,120,255,0.7));
-  animation: logoFloat 3.5s ease-in-out infinite;
-}
-
-@keyframes logoFloat {
-  0%,100% {
-    transform: translate(-50%, -50%) translateY(0) scale(1);
-    filter: drop-shadow(0 0 28px rgba(100,120,255,0.7));
-  }
-
-  50% {
-    transform: translate(-50%, -50%) translateY(-8px) scale(1.04);
-    filter: drop-shadow(0 0 42px rgba(140,100,255,0.95));
-  }
-}
-
-.auth-logo p {
-  font-size: 13px;
-  color: var(--muted);
-  margin-top: 4px;
-  font-weight: 400;
-}
-    /* Tabs */
     .auth-tabs {
-      display: flex;
-      background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 12px;
-      padding: 4px; margin-bottom: 28px; gap: 4px;
+      display: flex; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px; padding: 4px; margin-bottom: 28px; gap: 4px;
     }
     .auth-tab {
       flex: 1; padding: 10px; border: none; border-radius: 10px;
-      background: transparent; color: var(--muted);
-      font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600;
-      cursor: pointer; transition: all 0.35s cubic-bezier(.34,1.36,.64,1);
+      background: transparent; color: var(--muted); font-family: 'Sora', sans-serif;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      transition: all 0.35s cubic-bezier(.34,1.36,.64,1);
     }
-    .auth-tab.active {
-      background: linear-gradient(135deg, #7c3aed, #6d28d9);
-      color: #fff;
-      box-shadow: 0 2px 18px rgba(139,92,246,0.5);
-      transform: scale(1.02);
-    }
+    .auth-tab.active { background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; box-shadow: 0 2px 18px rgba(139,92,246,0.5); transform: scale(1.02); }
 
-    /* Form panels */
     .auth-form-panel { display: none; flex-direction: column; gap: 6px; }
-    .auth-form-panel.active {
-      display: flex;
-      animation: panelSlide .4s cubic-bezier(.34,1.2,.64,1);
-    }
-    @keyframes panelSlide {
-      from { opacity: 0; transform: translateX(20px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
+    .auth-form-panel.active { display: flex; animation: panelSlide .4s cubic-bezier(.34,1.2,.64,1); }
+    @keyframes panelSlide { from{opacity:0;transform:translateX(20px);} to{opacity:1;transform:translateX(0);} }
     .auth-form-panel.active > * { animation: fadeUp .4s both; }
-    .auth-form-panel.active > *:nth-child(1) { animation-delay: .05s; }
-    .auth-form-panel.active > *:nth-child(2) { animation-delay: .12s; }
-    .auth-form-panel.active > *:nth-child(3) { animation-delay: .19s; }
-    .auth-form-panel.active > *:nth-child(4) { animation-delay: .26s; }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
+    .auth-form-panel.active > *:nth-child(1){animation-delay:.05s}
+    .auth-form-panel.active > *:nth-child(2){animation-delay:.12s}
+    .auth-form-panel.active > *:nth-child(3){animation-delay:.19s}
+    .auth-form-panel.active > *:nth-child(4){animation-delay:.26s}
+    @keyframes fadeUp { from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
     .auth-footer { text-align: center; margin-top: 20px; font-size: 12px; color: var(--muted); }
 
-    /* ══ DASHBOARD ══ */
-    #page-dashboard {
-      min-height: 100vh;
-      position: relative; z-index: 3;
-      max-width: 780px; margin: 0 auto;
-      padding: 0 16px 100px;
-    }
+    #page-dashboard { min-height: 100vh; position: relative; z-index: 3; max-width: 780px; margin: 0 auto; padding: 0 16px 100px; }
     #page-dashboard.entering { animation: dashIn .7s cubic-bezier(.34,1.2,.64,1) both; }
-    @keyframes dashIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes dashIn { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
 
-    /* Topbar */
     .topbar {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 0 16px;
-      border-bottom: 1px solid rgba(139,92,246,0.15);
-      margin-bottom: 26px; gap: 12px;
-      animation: fadeDown .5s .1s both;
+      padding: 20px 0 16px; border-bottom: 1px solid rgba(139,92,246,0.15);
+      margin-bottom: 26px; gap: 12px; animation: fadeDown .5s .1s both;
     }
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-14px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-14px);} to{opacity:1;transform:translateY(0);} }
     .topbar-left { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
     .topbar-avatar {
       width: 44px; height: 44px; border-radius: 50%;
@@ -344,29 +201,19 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 17px; font-weight: 800; flex-shrink: 0;
       box-shadow: 0 0 0 2px rgba(139,92,246,0.4);
-      animation: avatarPulse 3s ease-in-out infinite;
-      cursor: default; transition: transform 0.3s;
+      animation: avatarPulse 3s ease-in-out infinite; cursor: default; transition: transform 0.3s;
     }
     .topbar-avatar:hover { transform: scale(1.12) rotate(8deg); }
-    @keyframes avatarPulse {
-      0%,100% { box-shadow: 0 0 0 2px rgba(139,92,246,0.4); }
-      50%      { box-shadow: 0 0 0 6px rgba(139,92,246,0.1), 0 0 20px rgba(139,92,246,0.3); }
-    }
+    @keyframes avatarPulse { 0%,100%{box-shadow:0 0 0 2px rgba(139,92,246,0.4);} 50%{box-shadow:0 0 0 6px rgba(139,92,246,0.1),0 0 20px rgba(139,92,246,0.3);} }
     .topbar-name { font-size: 15px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .topbar-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
     .logout-btn {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid var(--border);
-      color: var(--muted); padding: 9px 16px;
-      border-radius: 10px; cursor: pointer;
-      font-size: 12px; font-family: 'Sora', sans-serif; font-weight: 600;
-      transition: all 0.25s;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      color: var(--muted); padding: 9px 16px; border-radius: 10px; cursor: pointer;
+      font-size: 12px; font-family: 'Sora', sans-serif; font-weight: 600; transition: all 0.25s;
     }
     .logout-btn:hover { border-color: var(--border-h); color: var(--text); transform: translateY(-1px); }
 
-    /* Status badge removed */
-
-    /* Notification badge */
     .notification-badge {
       display: inline-flex; align-items: center; justify-content: center;
       width: 22px; height: 22px; border-radius: 50%;
@@ -377,106 +224,103 @@
     }
     @keyframes notifPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.15);} }
 
-    /* Cards de publicação */
-    .publish-card {
-      padding: 24px; margin-bottom: 26px;
-      animation: fadeUp .5s .2s both;
-      transition: box-shadow .3s;
+    /* ══ SORT INDICATOR ══ */
+    .sort-indicator {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10px; color: var(--muted); background: rgba(139,92,246,0.08);
+      border: 1px solid rgba(139,92,246,0.2); padding: 3px 10px;
+      border-radius: 999px; margin-left: 8px; font-weight: 600;
+      letter-spacing: 0.3px;
     }
-    .publish-card:focus-within {
-      box-shadow: 0 0 0 1px rgba(139,92,246,0.4), var(--glow), inset 0 1px 0 rgba(255,255,255,0.08);
+
+    /* ══ COMPLETION COUNTER ══ */
+    .completion-counter {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700;
+      background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.25);
+      color: #a5b4fc; margin-top: 8px; transition: all 0.3s;
     }
+    .completion-counter.has-completions {
+      background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: #34d399;
+    }
+    .completion-counter .counter-num {
+      font-size: 13px; font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    .completion-counter .counter-bar {
+      height: 3px; background: rgba(255,255,255,0.08); border-radius: 999px;
+      overflow: hidden; width: 48px; flex-shrink: 0;
+    }
+    .completion-counter .counter-fill {
+      height: 100%; border-radius: 999px;
+      background: linear-gradient(90deg, #10b981, #34d399);
+      transition: width 0.5s cubic-bezier(.34,1.2,.64,1);
+    }
+
+    /* ══ URGENCY BADGE ══ */
+    .urgency-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.4px; text-transform: uppercase;
+    }
+    .urgency-today    { background: rgba(244,63,94,0.15); color: #fb7185; border: 1px solid rgba(244,63,94,0.35); animation: urgencyPulse 1.5s ease-in-out infinite; }
+    .urgency-soon     { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+    .urgency-upcoming { background: rgba(99,102,241,0.1); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.25); }
+    @keyframes urgencyPulse { 0%,100%{box-shadow:none;} 50%{box-shadow:0 0 10px rgba(244,63,94,0.4);} }
+
+    .publish-card { padding: 24px; margin-bottom: 26px; animation: fadeUp .5s .2s both; transition: box-shadow .3s; }
+    .publish-card:focus-within { box-shadow: 0 0 0 1px rgba(139,92,246,0.4), var(--glow), inset 0 1px 0 rgba(255,255,255,0.08); }
     .publish-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; letter-spacing: 0.3px; }
 
-    /* Type chips */
     .type-selector { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
     .type-chip {
-      padding: 6px 14px; border-radius: 999px;
-      font-size: 12px; font-weight: 600;
-      cursor: pointer; border: 1px solid var(--border);
-      background: transparent; color: var(--muted);
-      font-family: 'Sora', sans-serif;
+      padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 600;
+      cursor: pointer; border: 1px solid var(--border); background: transparent;
+      color: var(--muted); font-family: 'Sora', sans-serif;
       transition: all .3s cubic-bezier(.34,1.36,.64,1);
     }
     .type-chip:hover { transform: translateY(-2px); border-color: var(--border-h); color: var(--text); }
-    .type-chip.active {
-      background: rgba(139,92,246,0.2);
-      border-color: rgba(160,100,255,0.5);
-      color: var(--purple2);
-      transform: translateY(-2px) scale(1.04);
-      box-shadow: 0 4px 16px rgba(139,92,246,0.25);
-    }
+    .type-chip.active { background: rgba(139,92,246,0.2); border-color: rgba(160,100,255,0.5); color: var(--purple2); transform: translateY(-2px) scale(1.04); box-shadow: 0 4px 16px rgba(139,92,246,0.25); }
 
     .publish-actions { display: flex; gap: 10px; margin-top: 14px; }
 
-    /* Filter bar */
-    .filter-bar {
-      display: flex; gap: 8px; margin-bottom: 22px; flex-wrap: wrap;
-      animation: fadeUp .5s .3s both;
-    }
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 22px; flex-wrap: wrap; animation: fadeUp .5s .3s both; }
     .filter-chip {
-      padding: 7px 16px; border-radius: 999px;
-      font-size: 12px; font-weight: 600;
-      cursor: pointer; border: 1px solid var(--border);
-      background: transparent; color: var(--muted);
-      font-family: 'Sora', sans-serif;
-      transition: all .3s cubic-bezier(.34,1.36,.64,1);
-      animation: fadeUp .4s both;
+      padding: 7px 16px; border-radius: 999px; font-size: 12px; font-weight: 600;
+      cursor: pointer; border: 1px solid var(--border); background: transparent;
+      color: var(--muted); font-family: 'Sora', sans-serif;
+      transition: all .3s cubic-bezier(.34,1.36,.64,1); animation: fadeUp .4s both;
     }
-    .filter-chip:nth-child(1){animation-delay:.05s}
-    .filter-chip:nth-child(2){animation-delay:.10s}
-    .filter-chip:nth-child(3){animation-delay:.15s}
-    .filter-chip:nth-child(4){animation-delay:.20s}
-    .filter-chip:nth-child(5){animation-delay:.25s}
-    .filter-chip:nth-child(6){animation-delay:.30s}
+    .filter-chip:nth-child(1){animation-delay:.05s} .filter-chip:nth-child(2){animation-delay:.10s}
+    .filter-chip:nth-child(3){animation-delay:.15s} .filter-chip:nth-child(4){animation-delay:.20s}
+    .filter-chip:nth-child(5){animation-delay:.25s} .filter-chip:nth-child(6){animation-delay:.30s}
     .filter-chip:hover { transform: translateY(-2px); border-color: var(--border-h); color: var(--text); }
-    .filter-chip.active {
-      background: rgba(139,92,246,0.18);
-      border-color: rgba(160,100,255,0.45);
-      color: var(--purple2);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 14px rgba(139,92,246,0.22);
-    }
+    .filter-chip.active { background: rgba(139,92,246,0.18); border-color: rgba(160,100,255,0.45); color: var(--purple2); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(139,92,246,0.22); }
 
-    /* Notice cards */
     #notices-list { display: flex; flex-direction: column; gap: 14px; }
     .notice-card {
       padding: 22px; position: relative; overflow: hidden;
-      transition: border-color .3s, transform .3s, box-shadow .3s;
-      cursor: default;
+      transition: border-color .3s, transform .3s, box-shadow .3s; cursor: default;
     }
     .notice-card::before {
-      content: '';
-      position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
       background: linear-gradient(180deg, var(--purple3), #6d28d9);
-      opacity: 0; transition: opacity .3s;
-      border-radius: 3px 0 0 3px;
+      opacity: 0; transition: opacity .3s; border-radius: 3px 0 0 3px;
     }
-    .notice-card:hover {
-      border-color: rgba(160,100,255,0.35);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(139,92,246,0.2), inset 0 1px 0 rgba(255,255,255,0.08);
-    }
+    .notice-card:hover { border-color: rgba(160,100,255,0.35); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(139,92,246,0.2), inset 0 1px 0 rgba(255,255,255,0.08); }
     .notice-card:hover::before { opacity: 1; }
     .notice-card.card-enter { animation: cardEnter .5s cubic-bezier(.34,1.2,.64,1) both; }
-    @keyframes cardEnter {
-      from { opacity: 0; transform: translateY(24px) scale(.96); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
+    @keyframes cardEnter { from{opacity:0;transform:translateY(24px) scale(.96);} to{opacity:1;transform:translateY(0) scale(1);} }
     .notice-card.card-exit { animation: cardExit .3s ease forwards; }
-    @keyframes cardExit {
-      to { opacity: 0; transform: scale(.93) translateY(-10px); max-height: 0; padding: 0; margin: 0; }
-    }
+    @keyframes cardExit { to{opacity:0;transform:scale(.93) translateY(-10px);max-height:0;padding:0;margin:0;} }
     .notice-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
     .notice-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .notice-author { font-size: 12px; font-weight: 700; color: var(--purple2); text-transform: uppercase; letter-spacing: 0.5px; }
     .notice-time { font-size: 11px; color: var(--muted); }
     .notice-type-pill {
       display: inline-flex; align-items: center; gap: 5px;
-      padding: 3px 10px; border-radius: 999px;
-      font-size: 10px; font-weight: 700;
-      letter-spacing: 0.6px; text-transform: uppercase;
-      margin-top: 6px; transition: transform .2s;
+      padding: 3px 10px; border-radius: 999px; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.6px; text-transform: uppercase; margin-top: 6px; transition: transform .2s;
     }
     .notice-card:hover .notice-type-pill { transform: scale(1.06); }
     .pill-aviso    { background: rgba(251,191,36,.1); color: #fbbf24; border: 1px solid rgba(251,191,36,.25); }
@@ -486,45 +330,36 @@
     .notice-actions { display: flex; gap: 6px; flex-shrink: 0; }
     .notice-body { font-size: 14px; line-height: 1.7; color: #ccc4e0; }
 
-    /* Books table */
     .books-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
     .books-table th, .books-table td { padding: 11px 14px; border-bottom: 1px solid rgba(255,255,255,0.07); text-align: left; }
     .books-table th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; font-weight: 600; }
     .books-table tbody tr:hover { background: rgba(255,255,255,.03); }
 
-    /* Deadline */
     .publish-deadline { margin-top: 12px; }
     .notice-deadline {
       margin-top: 10px; font-size: 11px; color: var(--text);
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 4px 11px; border: 1px solid var(--border);
-      border-radius: 999px; background: rgba(255,255,255,0.04);
+      display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px;
+      border: 1px solid var(--border); border-radius: 999px; background: rgba(255,255,255,0.04);
     }
     .notice-deadline.overdue { color: #fca5a5; border-color: rgba(244,63,94,.35); background: rgba(244,63,94,.1); }
 
-    /* Empty state */
     .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); animation: fadeUp .5s both; }
     .empty-state .emoji { font-size: 54px; display: block; margin-bottom: 14px; animation: emptyBounce 2.5s ease-in-out infinite; }
     @keyframes emptyBounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
     .empty-state p { font-size: 14px; }
 
-    /* Section header */
     .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; margin-top: 32px; gap: 10px; animation: fadeUp .5s .25s both; }
     .section-title { font-size: 17px; font-weight: 800; display: flex; align-items: center; gap: 8px; letter-spacing: -0.3px; }
     .count-badge { background: rgba(139,92,246,0.2); color: var(--purple2); padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; }
     .count-badge.bump { animation: badgeBump .4s cubic-bezier(.34,1.56,.64,1); }
     @keyframes badgeBump { 0%{transform:scale(1);} 40%{transform:scale(1.5);} 100%{transform:scale(1);} }
 
-    /* Suggestions panel */
     .suggestions-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 10px; }
 
-    /* Activity marker */
     .activity-marker {
-      display: flex; align-items: center; gap: 12px;
-      margin-top: 16px; font-size: 13px; color: var(--text);
-      border: 1px solid rgba(139,92,246,0.18);
-      background: rgba(255,255,255,0.03);
-      padding: 12px 14px; border-radius: 12px;
+      display: flex; align-items: center; gap: 12px; margin-top: 16px;
+      font-size: 13px; color: var(--text); border: 1px solid rgba(139,92,246,0.18);
+      background: rgba(255,255,255,0.03); padding: 12px 14px; border-radius: 12px;
       transition: background .2s, border-color .2s;
     }
     .activity-marker input { width: 18px; height: 18px; accent-color: var(--purple); cursor: pointer; flex-shrink: 0; }
@@ -533,96 +368,49 @@
     .notice-card.done-activity { border-color: rgba(16,185,129,.35); }
     .notice-card.done-activity .notice-type-pill { background: rgba(16,185,129,.1); color: #10b981; border-color: rgba(16,185,129,.25); }
 
-    /* Ripple */
-    .ripple {
-      position: absolute; border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      transform: scale(0); animation: rippleAnim .6s linear;
-      pointer-events: none;
-    }
-    @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+    .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.2); transform: scale(0); animation: rippleAnim .6s linear; pointer-events: none; }
+    @keyframes rippleAnim { to{transform:scale(4);opacity:0;} }
 
-    /* ══ CONFETTI BURST ══ */
     .confetti-particle {
-      position: fixed;
-      width: 8px; height: 8px;
-      border-radius: 2px;
-      pointer-events: none;
-      z-index: 9999;
+      position: fixed; width: 8px; height: 8px; border-radius: 2px;
+      pointer-events: none; z-index: 9999;
       animation: confettiFly var(--dur, 1s) var(--delay, 0s) cubic-bezier(.23,1,.32,1) both;
     }
     @keyframes confettiFly {
-      0%   { transform: translate(0,0) rotate(0deg) scale(1); opacity: 1; }
-      80%  { opacity: 1; }
-      100% { transform: translate(var(--tx,0px), var(--ty,120px)) rotate(var(--rot,360deg)) scale(0.4); opacity: 0; }
+      0%{transform:translate(0,0) rotate(0deg) scale(1);opacity:1;}
+      80%{opacity:1;}
+      100%{transform:translate(var(--tx,0px),var(--ty,120px)) rotate(var(--rot,360deg)) scale(0.4);opacity:0;}
     }
 
-    /* Animação do card ao concluir */
-    .notice-card.completing {
-      animation: cardComplete .5s cubic-bezier(.34,1.56,.64,1) both !important;
-    }
-    @keyframes cardComplete {
-      0%   { transform: scale(1); }
-      35%  { transform: scale(1.035) translateY(-3px); box-shadow: 0 0 0 2px rgba(16,185,129,.5), 0 12px 40px rgba(16,185,129,.25); }
-      100% { transform: scale(1) translateY(0); }
-    }
+    .notice-card.completing { animation: cardComplete .5s cubic-bezier(.34,1.56,.64,1) both !important; }
+    @keyframes cardComplete { 0%{transform:scale(1);} 35%{transform:scale(1.035) translateY(-3px);box-shadow:0 0 0 2px rgba(16,185,129,.5),0 12px 40px rgba(16,185,129,.25);} 100%{transform:scale(1) translateY(0);} }
+    .activity-marker input[type=checkbox] { transition: transform .2s cubic-bezier(.34,1.56,.64,1); }
+    .activity-marker input[type=checkbox]:checked { animation: checkPop .4s cubic-bezier(.34,1.56,.64,1); }
+    @keyframes checkPop { 0%{transform:scale(1);} 40%{transform:scale(1.6) rotate(-10deg);} 100%{transform:scale(1) rotate(0);} }
 
-    /* Checkmark pop */
-    .activity-marker input[type=checkbox] {
-      transition: transform .2s cubic-bezier(.34,1.56,.64,1);
-    }
-    .activity-marker input[type=checkbox]:checked {
-      animation: checkPop .4s cubic-bezier(.34,1.56,.64,1);
-    }
-    @keyframes checkPop {
-      0%   { transform: scale(1); }
-      40%  { transform: scale(1.6) rotate(-10deg); }
-      100% { transform: scale(1) rotate(0); }
-    }
-
-    /* Banner "Concluída!" que aparece e some */
     .done-banner {
-      position: fixed;
-      top: 50%; left: 50%;
+      position: fixed; top: 50%; left: 50%;
       transform: translate(-50%, -50%) scale(0);
       background: linear-gradient(135deg, #10b981, #059669);
-      color: #fff;
-      font-family: 'Sora', sans-serif;
-      font-size: 22px; font-weight: 800;
-      padding: 18px 40px;
-      border-radius: 18px;
-      box-shadow: 0 0 60px rgba(16,185,129,.5);
-      z-index: 9999;
-      pointer-events: none;
-      letter-spacing: 0.5px;
+      color: #fff; font-family: 'Sora', sans-serif;
+      font-size: 22px; font-weight: 800; padding: 18px 40px;
+      border-radius: 18px; box-shadow: 0 0 60px rgba(16,185,129,.5);
+      z-index: 9999; pointer-events: none; letter-spacing: 0.5px;
       animation: bannerPop .7s cubic-bezier(.34,1.56,.64,1) both;
     }
     @keyframes bannerPop {
-      0%   { transform: translate(-50%,-50%) scale(0) rotate(-8deg); opacity: 0; }
-      50%  { transform: translate(-50%,-50%) scale(1.08) rotate(2deg); opacity: 1; }
-      70%  { transform: translate(-50%,-50%) scale(1) rotate(0); opacity: 1; }
-      100% { transform: translate(-50%,-50%) scale(1) rotate(0); opacity: 1; }
+      0%{transform:translate(-50%,-50%) scale(0) rotate(-8deg);opacity:0;}
+      50%{transform:translate(-50%,-50%) scale(1.08) rotate(2deg);opacity:1;}
+      70%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:1;}
+      100%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:1;}
     }
 
-    /* Skeleton */
-    .skeleton {
-      background: linear-gradient(90deg, rgba(255,255,255,.03) 25%, rgba(255,255,255,.09) 50%, rgba(255,255,255,.03) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-      border-radius: 8px;
-    }
+    .skeleton { background: linear-gradient(90deg,rgba(255,255,255,.03) 25%,rgba(255,255,255,.09) 50%,rgba(255,255,255,.03) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
     @keyframes shimmer { from{background-position:200% 0;} to{background-position:-200% 0;} }
 
-    @keyframes shake {
-      0%,100%{transform:translateX(0) scale(1);}
-      20%{transform:translateX(-9px) scale(1.01);}
-      40%{transform:translateX(9px);}
-      60%{transform:translateX(-5px);}
-      80%{transform:translateX(5px);}
-    }
-    @keyframes authOut { to { opacity: 0; transform: scale(.94) translateY(-12px); } }
+    @keyframes shake { 0%,100%{transform:translateX(0) scale(1);} 20%{transform:translateX(-9px) scale(1.01);} 40%{transform:translateX(9px);} 60%{transform:translateX(-5px);} 80%{transform:translateX(5px);} }
+    @keyframes authOut { to{opacity:0;transform:scale(.94) translateY(-12px);} }
 
-    /* Admin tabs */
     .admin-tabs { display: flex; background: rgba(0,0,0,0.35); border: 1px solid var(--border); border-radius: 14px; padding: 4px; margin-bottom: 24px; gap: 4px; }
     .admin-tab { flex: 1; padding: 10px; border: none; border-radius: 12px; background: transparent; color: var(--muted); font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all .3s cubic-bezier(.34,1.36,.64,1); }
     .admin-tab.active { background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; box-shadow: 0 2px 16px rgba(139,92,246,0.45); transform: scale(1.02); }
@@ -632,7 +420,6 @@
 
     @media(max-width:480px){
       .auth-card { padding: 28px 20px; }
-      .logo-img { width: none; }
       .publish-actions { flex-direction: column; }
       .notice-actions .btn-sm span { display: none; }
       .filter-bar { gap: 6px; }
@@ -640,16 +427,11 @@
       #page-dashboard { padding: 0 12px 100px; }
       .topbar { padding: 16px 0 12px; }
     }
-    /* Garantir que tudo aparece em mobile */
-    @media(max-width:768px){
-      #bg-video { opacity: 0.5; }
-      .particle { opacity: 0.7 !important; }
-    }
+    @media(max-width:768px){ #bg-video{opacity:0.5;} .particle{opacity:0.7 !important;} }
   </style>
 </head>
 
 <body>
-  <!-- FUNDO GIF -->
   <img id="bg-video" src="Video_para_o_fundo.gif" alt="" />
   <div id="bg-overlay"></div>
   <div id="particles"></div>
@@ -704,7 +486,6 @@
           <div class="topbar-name" id="dash-name">—</div>
           <div class="topbar-sub" id="dash-role">Aluno</div>
         </div>
-
       </div>
       <button class="logout-btn" onclick="doLogout()">Sair</button>
     </div>
@@ -836,15 +617,171 @@
       async getSuggestions() { return sbFetch("suggestions?order=created_at.desc"); },
       async createSuggestion(message,author) { const r = await sbFetch("suggestions",{method:"POST",body:JSON.stringify({message,author})}); return r[0]; },
       async deleteSuggestion(id) { return sbFetch(`suggestions?id=eq.${id}`,{method:"DELETE"}); },
+
+      /* ══ ACTIVITY COMPLETIONS ══ */
+      // Tenta buscar da tabela activity_completions no Supabase.
+      // Se a tabela não existir, usa localStorage como fallback.
+      async getCompletionCount(noticeId) {
+        try {
+          const r = await sbFetch(`activity_completions?notice_id=eq.${noticeId}&select=id`);
+          return Array.isArray(r) ? r.length : 0;
+        } catch(e) { return this._localCompletionCount(noticeId); }
+      },
+      async getAllCompletionCounts(noticeIds) {
+        if (!noticeIds.length) return {};
+        try {
+          const ids = noticeIds.join(',');
+          const r = await sbFetch(`activity_completions?notice_id=in.(${ids})&select=notice_id`);
+          const counts = {};
+          noticeIds.forEach(id => counts[id] = 0);
+          if (Array.isArray(r)) r.forEach(row => { if (counts[row.notice_id] !== undefined) counts[row.notice_id]++; });
+          return counts;
+        } catch(e) {
+          // Fallback to localStorage counts
+          const counts = {};
+          noticeIds.forEach(id => counts[id] = this._localCompletionCount(id));
+          return counts;
+        }
+      },
+      async markCompletion(noticeId, userName) {
+        try {
+          // Check if already exists
+          const existing = await sbFetch(`activity_completions?notice_id=eq.${noticeId}&user_name=ilike.${encodeURIComponent(userName)}&limit=1`);
+          if (existing && existing.length > 0) return; // already marked
+          await sbFetch("activity_completions", {method:"POST", body:JSON.stringify({notice_id: noticeId, user_name: userName})});
+        } catch(e) { /* silently ignore - local state handles UX */ }
+      },
+      async unmarkCompletion(noticeId, userName) {
+        try {
+          await sbFetch(`activity_completions?notice_id=eq.${noticeId}&user_name=ilike.${encodeURIComponent(userName)}`, {method:"DELETE"});
+        } catch(e) { /* silently ignore */ }
+      },
+      _localCompletionCount(noticeId) {
+        // Estimate from localStorage — counts this user only as 1
+        try {
+          const all = JSON.parse(localStorage.getItem('tc_done_activities_global')||'{}');
+          return all[noticeId] ? all[noticeId] : 0;
+        } catch(e) { return 0; }
+      },
+
       getSession() { return JSON.parse(localStorage.getItem("tc_session")||"null"); },
       saveSession(u) { localStorage.setItem("tc_session",JSON.stringify(u)); },
       clearSession() { localStorage.removeItem("tc_session"); }
     };
 
     const ADMIN_USERS = ["representante","admin","monitor","delegado"];
-    let currentUser=null,notices=[],books=[],suggestions=[],currentFilter="todos",editingId=null,selectedType="aviso";
+    let currentUser=null, notices=[], books=[], suggestions=[];
+    let completionCounts={}; // { noticeId: number }
+    let currentFilter="todos", editingId=null, selectedType="aviso";
 
-    /* Partículas */
+    /* ══ AUTO-REFRESH (a cada hora) ══ */
+    const REFRESH_INTERVAL_MS = 60 * 60 * 1000; // 1 hora
+    let refreshTimer = null;
+
+    function startAutoRefresh() {
+      stopAutoRefresh();
+      refreshTimer = setTimeout(() => { silentRefresh(); }, REFRESH_INTERVAL_MS);
+    }
+
+    function stopAutoRefresh() {
+      if (refreshTimer) { clearTimeout(refreshTimer); refreshTimer = null; }
+    }
+
+    async function silentRefresh() {
+      try {
+        const [freshNotices, freshBooks, freshSuggestions] = await Promise.all([
+          DB.getNotices(), DB.getBooks(), DB.getSuggestions()
+        ]);
+        notices = freshNotices;
+        books = freshBooks;
+        suggestions = freshSuggestions;
+
+        // Refresh completion counts
+        const activityIds = notices.filter(n => n.type === 'atividade').map(n => n.id);
+        if (activityIds.length) {
+          completionCounts = await DB.getAllCompletionCounts(activityIds);
+        }
+
+        renderNotices(false);
+        renderBooks();
+        renderSuggestions();
+        updateNotificationBadge();
+        toast("🔄 Conteúdo atualizado automaticamente");
+      } catch(e) {
+        console.warn("Auto-refresh failed:", e);
+      }
+      // Restart the cycle
+      startAutoRefresh();
+    }
+
+    /* ══ SORTING LOGIC ══ */
+    // Priority types (have deadlines and urgency)
+    const PRIORITY_TYPES = new Set(['prova', 'trabalho', 'atividade']);
+    const FAR_FUTURE = '9999-99-99';
+
+    function sortNotices(list) {
+      const today = getTodayIso();
+      return [...list].sort((a, b) => {
+        const aPriority = PRIORITY_TYPES.has(a.type);
+        const bPriority = PRIORITY_TYPES.has(b.type);
+
+        // Items with due dates come before items without
+        if (aPriority !== bPriority) return aPriority ? -1 : 1;
+
+        if (aPriority && bPriority) {
+          const aDue = normalizeDateIso(a.due_date) || FAR_FUTURE;
+          const bDue = normalizeDateIso(b.due_date) || FAR_FUTURE;
+          // Overdue items (past) go after upcoming, but among overdue sort by closest past
+          const aOverdue = aDue < today;
+          const bOverdue = bDue < today;
+          if (aOverdue !== bOverdue) return aOverdue ? 1 : -1;
+          // Both same status: sort by date ascending (closest first)
+          if (aDue !== bDue) return aDue.localeCompare(bDue);
+          // Tie-break: most recent first
+          return new Date(b.created_at) - new Date(a.created_at);
+        }
+
+        // Both avisos: most recent first
+        return new Date(b.created_at) - new Date(a.created_at);
+      });
+    }
+
+    function getUrgencyBadge(dueDateIso) {
+      if (!dueDateIso) return '';
+      const today = getTodayIso();
+      const diff = daysUntil(dueDateIso, today);
+      if (diff < 0) return ''; // overdue — shown via deadline styling
+      if (diff === 0) return `<span class="urgency-badge urgency-today">🔥 Hoje!</span>`;
+      if (diff <= 3) return `<span class="urgency-badge urgency-soon">⚡ ${diff} dia${diff>1?' restantes':' restante'}</span>`;
+      if (diff <= 7) return `<span class="urgency-badge urgency-upcoming">📅 ${diff} dias</span>`;
+      return '';
+    }
+
+    function daysUntil(isoTarget, isoToday) {
+      const t = new Date(isoTarget + 'T00:00:00');
+      const n = new Date(isoToday + 'T00:00:00');
+      return Math.round((t - n) / 86400000);
+    }
+
+    /* ══ COMPLETION COUNTER RENDER ══ */
+    function renderCompletionCounter(noticeId, totalUsers) {
+      const count = completionCounts[noticeId] || 0;
+      const hasAny = count > 0;
+      const pct = totalUsers > 0 ? Math.min(100, Math.round((count / totalUsers) * 100)) : 0;
+      const barWidth = totalUsers > 0 ? pct : 0;
+      const label = count === 0 ? 'Nenhum concluiu ainda'
+                  : count === 1 ? '1 pessoa concluiu'
+                  : `${count} pessoas concluíram`;
+      return `
+        <div class="completion-counter ${hasAny ? 'has-completions' : ''}">
+          <span>👥</span>
+          <span class="counter-num">${count}</span>
+          <span style="color:var(--muted);font-weight:500">${label}</span>
+          ${totalUsers > 0 ? `<div class="counter-bar"><div class="counter-fill" style="width:${barWidth}%"></div></div>` : ''}
+        </div>`;
+    }
+
+    /* ══ PARTÍCULAS ══ */
     (function(){
       const c=document.getElementById("particles");
       for(let i=0;i<40;i++){
@@ -913,7 +850,7 @@
         const user=await DB.findUser(name);
         if(!user||user.pass!==pass){shakeCard();return toast("Nome ou senha incorretos.");}
         loginUser(user.name);
-      }catch(e){shakeCard();toast("Erro de conexão: "+e.message);setConnBadge(false);}
+      }catch(e){shakeCard();toast("Erro de conexão: "+e.message);}
       finally{setBtnLoading("login-btn",false,"Entrar");}
     }
 
@@ -933,10 +870,13 @@
         dash.classList.remove("hidden"); dash.classList.add("entering");
         dash.addEventListener("animationend",()=>dash.classList.remove("entering"),{once:true});
       },{once:true});
-      showSkeletons(); loadNotices(); loadBooks(); loadSuggestions();
+      showSkeletons();
+      loadAll();
+      startAutoRefresh();
     }
 
     function doLogout(){
+      stopAutoRefresh();
       const dash=document.getElementById("page-dashboard");
       dash.style.animation="authOut .3s ease forwards";
       dash.addEventListener("animationend",()=>{
@@ -951,9 +891,36 @@
       },{once:true});
     }
 
+    async function loadAll() {
+      await loadNotices();
+      await loadBooks();
+      await loadSuggestions();
+    }
+
     async function loadNotices(){
-      try{ notices=await DB.getNotices(); setConnBadge(true); renderNotices(true); }
-      catch(e){ setConnBadge(false); toast("Erro ao carregar avisos."); document.getElementById("notices-list").innerHTML=`<div class="empty-state"><span class="emoji">⚠️</span><p>Não foi possível carregar. Verifique sua conexão.</p></div>`; }
+      try{
+        notices = await DB.getNotices();
+        // Load completion counts for activity-type notices from Supabase
+        const activityIds = notices.filter(n => n.type === 'atividade').map(n => n.id);
+        if (activityIds.length) {
+          completionCounts = await DB.getAllCompletionCounts(activityIds);
+          // Sync: se localStorage marca como feita, garante registro no Supabase
+          const localDone = getDoneActivities();
+          const syncPromises = activityIds
+            .filter(id => localDone[id])
+            .map(id => DB.markCompletion(id, currentUser.name).catch(()=>{}));
+          if (syncPromises.length) {
+            Promise.all(syncPromises).then(() => {
+              DB.getAllCompletionCounts(activityIds).then(counts => {
+                completionCounts = counts;
+                renderNotices(false);
+              }).catch(()=>{});
+            });
+          }
+        }
+        renderNotices(true);
+      }
+      catch(e){ toast("Erro ao carregar avisos."); document.getElementById("notices-list").innerHTML=`<div class="empty-state"><span class="emoji">⚠️</span><p>Não foi possível carregar. Verifique sua conexão.</p></div>`; }
     }
     async function loadBooks(){ try{ books=await DB.getBooks(); renderBooks(); if(currentFilter==="livros") renderNotices(false); }catch(e){ toast("Erro ao carregar livros."); } }
     async function loadSuggestions(){ try{ suggestions=await DB.getSuggestions(); renderSuggestions(); updateNotificationBadge(); }catch(e){ toast("Erro ao carregar sugestões."); } }
@@ -985,7 +952,9 @@
       setBtnLoading("pub-btn",true,"Publicando...");
       try{
         const notice=await DB.createNotice(text,selectedType,currentUser.name,effectiveDueDate||null);
-        notices.unshift(notice); renderNotices(true); clearPublish(); toast("Publicado! 🎉"); bumpCount();
+        notices.unshift(notice);
+        if (notice.type === 'atividade') completionCounts[notice.id] = 0;
+        renderNotices(true); clearPublish(); toast("Publicado! 🎉"); bumpCount();
       }catch(e){ toast("Erro ao publicar: "+e.message); }
       finally{ setBtnLoading("pub-btn",false,"Publicar"); }
     }
@@ -1032,119 +1001,61 @@
     function getDoneActivities(){ if(!currentUser) return {}; try{ return JSON.parse(localStorage.getItem(`tc_done_activities_${currentUser.name.toLowerCase()}`)||"{}")||{}; }catch(e){return{};} }
     function saveDoneActivities(m){ if(!currentUser) return; localStorage.setItem(`tc_done_activities_${currentUser.name.toLowerCase()}`,JSON.stringify(m)); }
     function isActivityDone(id){ return !!getDoneActivities()[id]; }
-    /* ══ CONFETTI BURST ══ */
+
+    /* ══ CONFETTI ══ */
     function launchConfetti(originX, originY) {
       const colors = ['#a78bfa','#c084fc','#10b981','#fbbf24','#f472b6','#60a5fa','#34d399','#f87171'];
       const count = 48;
       for (let i = 0; i < count; i++) {
-        const el = document.createElement('div');
-        el.className = 'confetti-particle';
-        const angle = (360 / count) * i + Math.random() * 15;
-        const dist  = 80 + Math.random() * 120;
-        const rad   = angle * Math.PI / 180;
-        const tx    = Math.cos(rad) * dist;
-        const ty    = Math.sin(rad) * dist - 40;
-        const dur   = (0.6 + Math.random() * 0.5).toFixed(2);
-        const delay = (Math.random() * 0.12).toFixed(2);
-        const rot   = (Math.random() * 720 - 360).toFixed(0);
-        const size  = (5 + Math.random() * 7).toFixed(0);
-        el.style.cssText = `
-          left:${originX}px; top:${originY}px;
-          width:${size}px; height:${size}px;
-          background:${colors[Math.floor(Math.random()*colors.length)]};
-          --tx:${tx}px; --ty:${ty}px;
-          --dur:${dur}s; --delay:${delay}s;
-          --rot:${rot}deg;
-          border-radius:${Math.random()>0.5?'50%':'3px'};
-        `;
+        const el = document.createElement('div'); el.className = 'confetti-particle';
+        const angle = (360/count)*i+Math.random()*15;
+        const dist = 80+Math.random()*120;
+        const rad = angle*Math.PI/180;
+        const tx = Math.cos(rad)*dist; const ty = Math.sin(rad)*dist-40;
+        const dur = (0.6+Math.random()*0.5).toFixed(2);
+        const delay = (Math.random()*0.12).toFixed(2);
+        const rot = (Math.random()*720-360).toFixed(0);
+        const size = (5+Math.random()*7).toFixed(0);
+        el.style.cssText=`left:${originX}px;top:${originY}px;width:${size}px;height:${size}px;background:${colors[Math.floor(Math.random()*colors.length)]};--tx:${tx}px;--ty:${ty}px;--dur:${dur}s;--delay:${delay}s;--rot:${rot}deg;border-radius:${Math.random()>0.5?'50%':'3px'};`;
         document.body.appendChild(el);
-        el.addEventListener('animationend', () => el.remove());
+        el.addEventListener('animationend', ()=>el.remove());
       }
     }
 
-   function showDoneBanner() {
-    const banner = document.createElement("div");
+    function showDoneBanner() {
+      const banner = document.createElement("div");
+      banner.innerHTML = `<span style="font-size:22px;">✅</span><span>Parabéns!</span>`;
+      banner.style.cssText="position:fixed;top:90%;left:50%;transform:translate(-50%,-50%) scale(0.9);display:flex;align-items:center;gap:6px;padding:10px 20px;background:linear-gradient(135deg,#a8edea,#fed6e3);color:#333;font-size:16px;font-weight:600;border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,0.18);z-index:9999;opacity:0;transition:all 0.35s ease;";
+      document.body.appendChild(banner);
+      setTimeout(()=>{ banner.style.opacity="1"; banner.style.transform="translate(-50%,-50%) scale(1)"; },50);
+      setTimeout(()=>{ banner.style.opacity="0"; banner.style.transform="translate(-50%,-50%) scale(0.9)"; },2200);
+      setTimeout(()=>banner.remove(),2600);
+    }
 
-    banner.innerHTML = `
-        <span style="font-size:22px;">✅</span>
-        <span>Parabéns!</span>
-    `;
-
-    banner.style.position = "fixed";
-
-    /* CENTRALIZAÇÃO REAL */
-    banner.style.top = "90%";
-    banner.style.left = "50%";
-    banner.style.transform = "translate(-50%, -50%) scale(0.9)";
-
-    banner.style.display = "flex";
-    banner.style.alignItems = "center";
-    banner.style.gap = "6px";
-
-    banner.style.padding = "2px 5.5px";
-
-    banner.style.background =
-        "linear-gradient(135deg, #a8edea, #fed6e3)";
-
-    banner.style.color = "#333";
-
-    banner.style.fontSize = "16px";
-    banner.style.fontWeight = "600";
-
-    banner.style.borderRadius = "16px";
-
-    banner.style.boxShadow =
-        "0 12px 30px rgba(0,0,0,0.18)";
-
-    banner.style.zIndex = "9999";
-
-    banner.style.opacity = "0";
-
-    banner.style.transition =
-        "all 0.35s ease";
-
-    document.body.appendChild(banner);
-
-    // animação de entrada
-    setTimeout(() => {
-        banner.style.opacity = "1";
-        banner.style.transform =
-            "translate(-50%, -50%) scale(1)";
-    }, 50);
-
-    // animação de saída
-    setTimeout(() => {
-        banner.style.opacity = "0";
-        banner.style.transform =
-            "translate(-50%, -50%) scale(0.9)";
-    }, 2200);
-
-    setTimeout(() => {
-        banner.remove();
-    }, 2600);
-}
-
-    function toggleActivityDone(id, checkboxEl) {
+    async function toggleActivityDone(id, checkboxEl) {
       const m = getDoneActivities();
       m[id] = !m[id];
       saveDoneActivities(m);
 
       if (m[id]) {
-        // Pega posição do checkbox pra lançar confete dali
+        // Sync to Supabase
+        DB.markCompletion(id, currentUser.name).then(()=>{
+          // Update local count
+          completionCounts[id] = (completionCounts[id] || 0) + 1;
+          renderNotices(false);
+        });
+
         const rect = checkboxEl ? checkboxEl.getBoundingClientRect() : { left: window.innerWidth/2, top: window.innerHeight/2 };
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-
-        // Animação no card
+        const cx = rect.left+rect.width/2; const cy = rect.top+rect.height/2;
         const card = checkboxEl ? checkboxEl.closest('.notice-card') : null;
-        if (card) {
-          card.classList.add('completing');
-          card.addEventListener('animationend', () => card.classList.remove('completing'), { once: true });
-        }
-
-        // Confete e banner
-        launchConfetti(cx, cy);
-        showDoneBanner();
+        if (card) { card.classList.add('completing'); card.addEventListener('animationend',()=>card.classList.remove('completing'),{once:true}); }
+        launchConfetti(cx, cy); showDoneBanner();
+      } else {
+        // Unmark in Supabase
+        DB.unmarkCompletion(id, currentUser.name).then(()=>{
+          completionCounts[id] = Math.max(0, (completionCounts[id] || 1) - 1);
+          renderNotices(false);
+        });
       }
 
       renderNotices(false);
@@ -1159,21 +1070,17 @@
 
     function setFilter(el){
       document.querySelectorAll(".filter-chip").forEach(c=>c.classList.remove("active"));
-      el.classList.add("active");
-      currentFilter=el.dataset.filter;
-      // Animate the notices list out then in
+      el.classList.add("active"); currentFilter=el.dataset.filter;
       const list=document.getElementById("notices-list");
-      list.style.animation="none";
-      list.style.opacity="0";
-      list.style.transform="translateY(14px)";
+      list.style.opacity="0"; list.style.transform="translateY(14px)";
       setTimeout(()=>{
-        list.style.transition="opacity 0.35s ease, transform 0.35s cubic-bezier(.34,1.2,.64,1)";
+        list.style.transition="opacity 0.35s ease,transform 0.35s cubic-bezier(.34,1.2,.64,1)";
         renderNotices(true);
-        list.style.opacity="1";
-        list.style.transform="translateY(0)";
+        list.style.opacity="1"; list.style.transform="translateY(0)";
         setTimeout(()=>{ list.style.transition=""; list.style.opacity=""; list.style.transform=""; },400);
       },80);
     }
+
     function requiresDeadline(type){ return type==="prova"||type==="trabalho"||type==="atividade"; }
 
     async function submitSuggestion(){
@@ -1228,15 +1135,20 @@
     }
 
     const TYPE_CONFIG={
-      aviso:   {emoji:"📢",label:"Aviso",    pill:"pill-aviso"},
-      prova:   {emoji:"📝",label:"Prova",    pill:"pill-prova"},
-      trabalho:{emoji:"📁",label:"Trabalho", pill:"pill-trabalho"},
-      atividade:{emoji:"📖",label:"Atividade",pill:"pill-atividade"},
+      aviso:    {emoji:"📢",label:"Aviso",     pill:"pill-aviso"},
+      prova:    {emoji:"📝",label:"Prova",     pill:"pill-prova"},
+      trabalho: {emoji:"📁",label:"Trabalho",  pill:"pill-trabalho"},
+      atividade:{emoji:"📖",label:"Atividade", pill:"pill-atividade"},
     };
+
+    // Estimated total users (used for the completion percentage bar)
+    // You can update this number to reflect your class size
+    const TOTAL_USERS_ESTIMATE = 30;
 
     function renderNotices(animate){
       const list=document.getElementById("notices-list");
       const title=document.querySelector(".section-title");
+
       if(currentFilter==="livros"){
         title.innerHTML=`📚 Livros da semana <span class="count-badge" id="notices-count">${books.length}</span>`;
         if(!books.length){ list.innerHTML=`<div class="empty-state"><span class="emoji">📚</span><p>Nenhum livro necessário.</p></div>`; return; }
@@ -1252,21 +1164,37 @@
           </div>`).join("");
         return;
       }
-      const filtered=currentFilter==="todos"?notices:notices.filter(n=>n.type===currentFilter);
-      title.innerHTML=`📋 Mural da Turma <span class="count-badge" id="notices-count">${filtered.length}</span>`;
+
+      const raw = currentFilter==="todos" ? notices : notices.filter(n=>n.type===currentFilter);
+
+      // ══ SORT BY RELEVANCE ══
+      const filtered = sortNotices(raw);
+
+      // Build sort label
+      const hasPriorityItems = filtered.some(n => PRIORITY_TYPES.has(n.type));
+      const sortLabel = hasPriorityItems
+        ? `<span class="sort-indicator">⬆️ Por urgência</span>`
+        : `<span class="sort-indicator">🕐 Mais recentes</span>`;
+
+      title.innerHTML=`📋 Mural da Turma <span class="count-badge" id="notices-count">${filtered.length}</span>${sortLabel}`;
       list.classList.toggle("panel-slide-in",animate); if(animate) list.offsetHeight;
       if(!filtered.length){ list.innerHTML=`<div class="empty-state"><span class="emoji">📭</span><p>Nenhuma publicação aqui ainda.</p></div>`; return; }
+
       list.innerHTML=filtered.map((n,i)=>{
         const cfg=TYPE_CONFIG[n.type]||TYPE_CONFIG.aviso;
         const rel=relativeTime(new Date(n.created_at));
         const dueDateIso=normalizeDateIso(n.due_date);
         const deadlineText=dueDateIso?formatDatePtBr(dueDateIso):"";
         const deadlineInfo=dueDateIso?`<div class="notice-deadline ${isPastDue(dueDateIso)?"overdue":""}">⏳ Término: ${deadlineText}</div>`:"";
+        const urgencyBadge = PRIORITY_TYPES.has(n.type) ? getUrgencyBadge(dueDateIso) : '';
         const delay=animate?`animation-delay:${i*.07}s`:"animation:none";
         const admin=currentUser?.isAdmin?`<button class="btn btn-ghost btn-sm" onclick="openEdit('${n.id}')">✏️ <span>Editar</span></button><button class="btn btn-danger btn-sm" onclick="deleteNotice('${n.id}')">🗑 <span>Excluir</span></button>`:"";
         const done=n.type==='atividade'&&isActivityDone(n.id);
         const doneBadge=done?`<span class="notice-type-pill" style="background:rgba(16,185,129,.1);color:#10b981;border-color:rgba(16,185,129,.25);">✔️ Concluída</span>`:'';
         const activityToggle=n.type==='atividade'?`<label class="activity-marker ${done?'done':''}"><input type="checkbox" ${done?'checked':''} onchange="toggleActivityDone('${n.id}', this)" /><span>${done?'Você concluiu esta atividade':'Marcar atividade como concluída'}</span></label>`:'';
+        // ══ COMPLETION COUNTER ══
+        const completionCounter = n.type==='atividade' ? renderCompletionCounter(n.id, TOTAL_USERS_ESTIMATE) : '';
+
         return `<div class="notice-card glass card-enter ${done?'done-activity':''}" data-id="${n.id}" style="${delay}">
           <div class="notice-header">
             <div>
@@ -1275,14 +1203,18 @@
                 <span class="notice-time">${rel}</span>
                 ${n.edited?'<span style="font-size:10px;color:var(--muted)">(editado)</span>':""}
               </div>
-              <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
-                <span class="notice-type-pill ${cfg.pill}">${cfg.emoji} ${cfg.label}</span>${doneBadge}
+              <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:4px">
+                <span class="notice-type-pill ${cfg.pill}">${cfg.emoji} ${cfg.label}</span>
+                ${doneBadge}
+                ${urgencyBadge}
               </div>
             </div>
             <div class="notice-actions">${admin}</div>
           </div>
           <div class="notice-body">${esc(n.text).replace(/\n/g,"<br>")}</div>
-          ${deadlineInfo}${activityToggle}
+          ${deadlineInfo}
+          ${completionCounter}
+          ${activityToggle}
         </div>`;
       }).join("");
     }
@@ -1298,7 +1230,6 @@
     let toastTimer;
     function toast(msg){ const el=document.getElementById("toast"); el.textContent=msg; el.classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove("show"),3200); }
     function setBtnLoading(id,loading,label){ const btn=document.getElementById(id); if(!btn) return; btn.disabled=loading; btn.textContent=label; btn.style.opacity=loading?".7":"1"; }
-    function setConnBadge(online){ /* badge removed */ }
 
     document.addEventListener("DOMContentLoaded",()=>{
       document.querySelector("#tab-login .btn-primary").id="login-btn";
