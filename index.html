@@ -120,8 +120,6 @@
     }
     #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-
-
     .modal-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.6);
       backdrop-filter: blur(10px); z-index: 100;
@@ -231,30 +229,6 @@
       border: 1px solid rgba(139,92,246,0.2); padding: 3px 10px;
       border-radius: 999px; margin-left: 8px; font-weight: 600;
       letter-spacing: 0.3px;
-    }
-
-    /* ══ COMPLETION COUNTER ══ */
-    .completion-counter {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700;
-      background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.25);
-      color: #a5b4fc; margin-top: 8px; transition: all 0.3s;
-    }
-    .completion-counter.has-completions {
-      background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: #34d399;
-    }
-    .completion-counter .counter-num {
-      font-size: 13px; font-weight: 800;
-      font-variant-numeric: tabular-nums;
-    }
-    .completion-counter .counter-bar {
-      height: 3px; background: rgba(255,255,255,0.08); border-radius: 999px;
-      overflow: hidden; width: 48px; flex-shrink: 0;
-    }
-    .completion-counter .counter-fill {
-      height: 100%; border-radius: 999px;
-      background: linear-gradient(90deg, #10b981, #34d399);
-      transition: width 0.5s cubic-bezier(.34,1.2,.64,1);
     }
 
     /* ══ URGENCY BADGE ══ */
@@ -595,40 +569,20 @@
     };
 
     async function sbFetch(path, options = {}) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
-    ...options,
-    headers: {
-      ...SB_HEADERS,
-      ...(options.headers || {})
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+        ...options,
+        headers: { ...SB_HEADERS, ...(options.headers || {}) }
+      });
+      if (!res.ok) {
+        const errorText = await res.text();
+        let errorMessage = `Erro ${res.status}`;
+        try { const errorJson = JSON.parse(errorText); errorMessage = errorJson.message || errorMessage; } catch {}
+        throw new Error(errorMessage);
+      }
+      const text = await res.text();
+      if (!text) return null;
+      try { return JSON.parse(text); } catch { return text; }
     }
-  });
-
-  if (!res.ok) {
-    const errorText = await res.text();
-
-    let errorMessage = `Erro ${res.status}`;
-
-    try {
-      const errorJson = JSON.parse(errorText);
-      errorMessage = errorJson.message || errorMessage;
-    } catch {}
-
-    throw new Error(errorMessage);
-  }
-
-  // lê como texto primeiro
-  const text = await res.text();
-
-  // se vier vazio, retorna null
-  if (!text) return null;
-
-  // tenta converter pra json
-  try {
-    return JSON.parse(text);
-  } catch {
-    return text;
-  }
-}
 
     const DB = {
       async findUser(name) { const r = await sbFetch(`users?name=ilike.${encodeURIComponent(name)}&limit=1`); return r[0]||null; },
@@ -643,22 +597,7 @@
       async getSuggestions() { return sbFetch("suggestions?order=created_at.desc"); },
       async createSuggestion(message,author) { const r = await sbFetch("suggestions",{method:"POST",body:JSON.stringify({message,author})}); return r[0]; },
       async deleteSuggestion(id) { return sbFetch(`suggestions?id=eq.${id}`,{method:"DELETE"}); },
-
-      /* ══ ACTIVITY COMPLETIONS ══ */
-      async getAllCompletionCounts(noticeIds) {
-        if (!noticeIds.length) return {};
-        // notice_id é TEXT (uuid) — passa os ids entre aspas simples
-        const ids = noticeIds.join(',');
-        const r = await sbFetch(`activity_completions?notice_id=in.(${ids})&select=notice_id`);
-        const counts = {};
-        noticeIds.forEach(id => counts[id] = 0);
-        if (Array.isArray(r)) r.forEach(row => {
-          if (counts[row.notice_id] !== undefined) counts[row.notice_id]++;
-        });
-        return counts;
-      },
       async markCompletion(noticeId, userName) {
-        // Usa upsert via onConflict — UNIQUE(notice_id, user_name) evita duplicatas
         await sbFetch("activity_completions?on_conflict=notice_id,user_name", {
           method: "POST",
           headers: { "Prefer": "resolution=ignore-duplicates,return=minimal" },
@@ -675,11 +614,10 @@
 
     const ADMIN_USERS = ["representante","admin","monitor","delegado"];
     let currentUser=null, notices=[], books=[], suggestions=[];
-    let completionCounts={}; // { noticeId: number }
     let currentFilter="todos", editingId=null, selectedType="aviso";
 
     /* ══ AUTO-REFRESH (a cada hora) ══ */
-    const REFRESH_INTERVAL_MS = 60 * 60 * 1000; // 1 hora
+    const REFRESH_INTERVAL_MS = 60 * 60 * 1000;
     let refreshTimer = null;
 
     function startAutoRefresh() {
@@ -699,13 +637,6 @@
         notices = freshNotices;
         books = freshBooks;
         suggestions = freshSuggestions;
-
-        // Refresh completion counts
-        const activityIds = notices.filter(n => n.type === 'atividade').map(n => n.id);
-        if (activityIds.length) {
-          completionCounts = await DB.getAllCompletionCounts(activityIds);
-        }
-
         renderNotices(false);
         renderBooks();
         renderSuggestions();
@@ -714,12 +645,10 @@
       } catch(e) {
         console.warn("Auto-refresh failed:", e);
       }
-      // Restart the cycle
       startAutoRefresh();
     }
 
     /* ══ SORTING LOGIC ══ */
-    // Priority types (have deadlines and urgency)
     const PRIORITY_TYPES = new Set(['prova', 'trabalho', 'atividade']);
     const FAR_FUTURE = '9999-99-99';
 
@@ -728,24 +657,16 @@
       return [...list].sort((a, b) => {
         const aPriority = PRIORITY_TYPES.has(a.type);
         const bPriority = PRIORITY_TYPES.has(b.type);
-
-        // Items with due dates come before items without
         if (aPriority !== bPriority) return aPriority ? -1 : 1;
-
         if (aPriority && bPriority) {
           const aDue = normalizeDateIso(a.due_date) || FAR_FUTURE;
           const bDue = normalizeDateIso(b.due_date) || FAR_FUTURE;
-          // Overdue items (past) go after upcoming, but among overdue sort by closest past
           const aOverdue = aDue < today;
           const bOverdue = bDue < today;
           if (aOverdue !== bOverdue) return aOverdue ? 1 : -1;
-          // Both same status: sort by date ascending (closest first)
           if (aDue !== bDue) return aDue.localeCompare(bDue);
-          // Tie-break: most recent first
           return new Date(b.created_at) - new Date(a.created_at);
         }
-
-        // Both avisos: most recent first
         return new Date(b.created_at) - new Date(a.created_at);
       });
     }
@@ -754,7 +675,7 @@
       if (!dueDateIso) return '';
       const today = getTodayIso();
       const diff = daysUntil(dueDateIso, today);
-      if (diff < 0) return ''; // overdue — shown via deadline styling
+      if (diff < 0) return '';
       if (diff === 0) return `<span class="urgency-badge urgency-today">🔥 Hoje!</span>`;
       if (diff <= 3) return `<span class="urgency-badge urgency-soon">⚡ ${diff} dias${diff>1?' restantes':' restante'}</span>`;
       if (diff <= 7) return `<span class="urgency-badge urgency-upcoming">📅 ${diff} dias</span>`;
@@ -765,24 +686,6 @@
       const t = new Date(isoTarget + 'T00:00:00');
       const n = new Date(isoToday + 'T00:00:00');
       return Math.round((t - n) / 86400000);
-    }
-
-    /* ══ COMPLETION COUNTER RENDER ══ */
-    function renderCompletionCounter(noticeId, totalUsers) {
-      const count = completionCounts[noticeId] || 0;
-      const hasAny = count > 0;
-      const pct = totalUsers > 0 ? Math.min(100, Math.round((count / totalUsers) * 100)) : 0;
-      const barWidth = totalUsers > 0 ? pct : 0;
-      const label = count === 0 ? 'Nenhum concluiu ainda'
-                  : count === 1 ? '1 pessoa concluiu'
-                  : `${count} pessoas concluíram`;
-      return `
-        <div class="completion-counter ${hasAny ? 'has-completions' : ''}">
-          <span>👥</span>
-          <span class="counter-num">${count}</span>
-          <span style="color:var(--muted);font-weight:500">${label}</span>
-          ${totalUsers > 0 ? `<div class="counter-bar"><div class="counter-fill" style="width:${barWidth}%"></div></div>` : ''}
-        </div>`;
     }
 
     /* ══ PARTÍCULAS ══ */
@@ -904,28 +807,7 @@
     async function loadNotices(){
       try {
         notices = await DB.getNotices();
-        renderNotices(true); // mostra os cards imediatamente sem esperar as contagens
-
-        // Busca contagens do Supabase separadamente
-        const activityIds = notices.filter(n => n.type === 'atividade').map(n => n.id);
-        if (activityIds.length) {
-          try {
-            completionCounts = await DB.getAllCompletionCounts(activityIds);
-
-            // Sincroniza marcações do localStorage com o Supabase (quem já marcou antes)
-            const localDone = getDoneActivities();
-            const toSync = activityIds.filter(id => localDone[id]);
-            if (toSync.length) {
-              await Promise.all(toSync.map(id => DB.markCompletion(id, currentUser.name).catch(e => console.warn('sync skip:', e))));
-              // Re-busca contagens após sync para refletir este usuário
-              completionCounts = await DB.getAllCompletionCounts(activityIds);
-            }
-
-            renderNotices(false); // re-renderiza com as contagens atualizadas
-          } catch(e) {
-            console.error('Erro ao carregar contagens:', e);
-          }
-        }
+        renderNotices(true);
       } catch(e) {
         console.error('Erro ao carregar avisos:', e);
         toast("Erro ao carregar avisos.");
@@ -963,7 +845,6 @@
       try{
         const notice=await DB.createNotice(text,selectedType,currentUser.name,effectiveDueDate||null);
         notices.unshift(notice);
-        if (notice.type === 'atividade') completionCounts[notice.id] = 0;
         renderNotices(true); clearPublish(); toast("Publicado! 🎉"); bumpCount();
       }catch(e){ toast("Erro ao publicar: "+e.message); }
       finally{ setBtnLoading("pub-btn",false,"Publicar"); }
@@ -1049,31 +930,22 @@
       saveDoneActivities(m);
 
       if (nowDone) {
-        // Animação imediata
         const rect = checkboxEl ? checkboxEl.getBoundingClientRect() : { left: window.innerWidth/2, top: window.innerHeight/2 };
         const cx = rect.left+rect.width/2; const cy = rect.top+rect.height/2;
         const card = checkboxEl ? checkboxEl.closest('.notice-card') : null;
         if (card) { card.classList.add('completing'); card.addEventListener('animationend',()=>card.classList.remove('completing'),{once:true}); }
         launchConfetti(cx, cy); showDoneBanner();
 
-        // Salva no Supabase e atualiza contagem real
         try {
           await DB.markCompletion(id, currentUser.name);
-          // Busca contagem real do servidor para garantir precisão
-          const fresh = await DB.getAllCompletionCounts([id]);
-          completionCounts[id] = fresh[id] || (completionCounts[id] || 0) + 1;
         } catch(e) {
           console.error('Erro ao salvar conclusão:', e);
           toast('Erro ao salvar conclusão. Tente novamente.');
-          // Reverte estado local
           m[id] = false; saveDoneActivities(m);
         }
       } else {
-        // Desmarca no Supabase e atualiza contagem real
         try {
           await DB.unmarkCompletion(id, currentUser.name);
-          const fresh = await DB.getAllCompletionCounts([id]);
-          completionCounts[id] = fresh[id] || Math.max(0, (completionCounts[id] || 1) - 1);
         } catch(e) {
           console.error('Erro ao remover conclusão:', e);
           toast('Erro ao desmarcar. Tente novamente.');
@@ -1164,10 +1036,6 @@
       atividade:{emoji:"📖",label:"Atividade", pill:"pill-atividade"},
     };
 
-    // Estimated total users (used for the completion percentage bar)
-    // You can update this number to reflect your class size
-    const TOTAL_USERS_ESTIMATE = 30;
-
     function renderNotices(animate){
       const list=document.getElementById("notices-list");
       const title=document.querySelector(".section-title");
@@ -1189,11 +1057,8 @@
       }
 
       const raw = currentFilter==="todos" ? notices : notices.filter(n=>n.type===currentFilter);
-
-      // ══ SORT BY RELEVANCE ══
       const filtered = sortNotices(raw);
 
-      // Build sort label
       const hasPriorityItems = filtered.some(n => PRIORITY_TYPES.has(n.type));
       const sortLabel = hasPriorityItems
         ? `<span class="sort-indicator">⬆️ Por urgência</span>`
@@ -1215,8 +1080,6 @@
         const done=n.type==='atividade'&&isActivityDone(n.id);
         const doneBadge=done?`<span class="notice-type-pill" style="background:rgba(16,185,129,.1);color:#10b981;border-color:rgba(16,185,129,.25);">✔️ Concluída</span>`:'';
         const activityToggle=n.type==='atividade'?`<label class="activity-marker ${done?'done':''}"><input type="checkbox" ${done?'checked':''} onchange="toggleActivityDone('${n.id}', this)" /><span>${done?'Você concluiu esta atividade':'Marcar atividade como concluída'}</span></label>`:'';
-        // ══ COMPLETION COUNTER ══
-        const completionCounter = n.type==='atividade' ? renderCompletionCounter(n.id, TOTAL_USERS_ESTIMATE) : '';
 
         return `<div class="notice-card glass card-enter ${done?'done-activity':''}" data-id="${n.id}" style="${delay}">
           <div class="notice-header">
@@ -1236,7 +1099,6 @@
           </div>
           <div class="notice-body">${esc(n.text).replace(/\n/g,"<br>")}</div>
           ${deadlineInfo}
-          ${completionCounter}
           ${activityToggle}
         </div>`;
       }).join("");
