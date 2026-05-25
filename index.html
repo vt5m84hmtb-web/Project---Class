@@ -63,6 +63,10 @@
 
     .hidden { display: none !important; }
 
+    /* SVG icon helper */
+    .icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .icon svg { display: block; }
+
     .input {
       width: 100%; padding: 14px 18px;
       background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
@@ -84,6 +88,7 @@
       cursor: pointer; letter-spacing: 0.5px;
       transition: all 0.3s cubic-bezier(.34,1.56,.64,1);
       position: relative; overflow: hidden;
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
     }
     .btn::after {
       content: ''; position: absolute; inset: 0;
@@ -117,6 +122,7 @@
       transition: transform 0.45s cubic-bezier(.34,1.56,.64,1), opacity 0.3s;
       backdrop-filter: blur(20px); white-space: nowrap;
       box-shadow: 0 0 40px rgba(139,92,246,0.35); opacity: 0;
+      display: flex; align-items: center; gap: 8px;
     }
     #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
@@ -127,7 +133,7 @@
       animation: fadeBg .25s ease;
     }
     .modal { width: 100%; max-width: 430px; padding: 30px; animation: modalPop .4s cubic-bezier(.34,1.56,.64,1); }
-    .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+    .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
     @keyframes fadeBg { from{opacity:0;} to{opacity:1;} }
     @keyframes modalPop { from{opacity:0;transform:scale(.8) translateY(30px);} to{opacity:1;transform:scale(1) translateY(0);} }
 
@@ -180,7 +186,7 @@
     .auth-form-panel.active > *:nth-child(3){animation-delay:.19s}
     .auth-form-panel.active > *:nth-child(4){animation-delay:.26s}
     @keyframes fadeUp { from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
-    .auth-footer { text-align: center; margin-top: 20px; font-size: 12px; color: var(--muted); }
+    .auth-footer { text-align: center; margin-top: 20px; font-size: 12px; color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 6px; }
 
     #page-dashboard { min-height: 100vh; position: relative; z-index: 3; max-width: 780px; margin: 0 auto; padding: 0 16px 100px; }
     #page-dashboard.entering { animation: dashIn .7s cubic-bezier(.34,1.2,.64,1) both; }
@@ -209,6 +215,7 @@
       background: rgba(255,255,255,0.04); border: 1px solid var(--border);
       color: var(--muted); padding: 9px 16px; border-radius: 10px; cursor: pointer;
       font-size: 12px; font-family: 'Sora', sans-serif; font-weight: 600; transition: all 0.25s;
+      display: flex; align-items: center; gap: 6px;
     }
     .logout-btn:hover { border-color: var(--border-h); color: var(--text); transform: translateY(-1px); }
 
@@ -222,7 +229,6 @@
     }
     @keyframes notifPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.15);} }
 
-    /* ══ SORT INDICATOR ══ */
     .sort-indicator {
       display: inline-flex; align-items: center; gap: 5px;
       font-size: 10px; color: var(--muted); background: rgba(139,92,246,0.08);
@@ -231,7 +237,6 @@
       letter-spacing: 0.3px;
     }
 
-    /* ══ URGENCY BADGE ══ */
     .urgency-badge {
       display: inline-flex; align-items: center; gap: 4px;
       padding: 3px 9px; border-radius: 999px; font-size: 10px; font-weight: 700;
@@ -252,6 +257,7 @@
       cursor: pointer; border: 1px solid var(--border); background: transparent;
       color: var(--muted); font-family: 'Sora', sans-serif;
       transition: all .3s cubic-bezier(.34,1.36,.64,1);
+      display: inline-flex; align-items: center; gap: 6px;
     }
     .type-chip:hover { transform: translateY(-2px); border-color: var(--border-h); color: var(--text); }
     .type-chip.active { background: rgba(139,92,246,0.2); border-color: rgba(160,100,255,0.5); color: var(--purple2); transform: translateY(-2px) scale(1.04); box-shadow: 0 4px 16px rgba(139,92,246,0.25); }
@@ -264,6 +270,7 @@
       cursor: pointer; border: 1px solid var(--border); background: transparent;
       color: var(--muted); font-family: 'Sora', sans-serif;
       transition: all .3s cubic-bezier(.34,1.36,.64,1); animation: fadeUp .4s both;
+      display: inline-flex; align-items: center; gap: 6px;
     }
     .filter-chip:nth-child(1){animation-delay:.05s} .filter-chip:nth-child(2){animation-delay:.10s}
     .filter-chip:nth-child(3){animation-delay:.15s} .filter-chip:nth-child(4){animation-delay:.20s}
@@ -318,7 +325,7 @@
     .notice-deadline.overdue { color: #fca5a5; border-color: rgba(244,63,94,.35); background: rgba(244,63,94,.1); }
 
     .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); animation: fadeUp .5s both; }
-    .empty-state .emoji { font-size: 54px; display: block; margin-bottom: 14px; animation: emptyBounce 2.5s ease-in-out infinite; }
+    .empty-state .es-icon { margin: 0 auto 14px; display: flex; justify-content: center; opacity: 0.45; animation: emptyBounce 2.5s ease-in-out infinite; }
     @keyframes emptyBounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
     .empty-state p { font-size: 14px; }
 
@@ -370,6 +377,7 @@
       font-size: 22px; font-weight: 800; padding: 18px 40px;
       border-radius: 18px; box-shadow: 0 0 60px rgba(16,185,129,.5);
       z-index: 9999; pointer-events: none; letter-spacing: 0.5px;
+      display: flex; align-items: center; gap: 10px;
       animation: bannerPop .7s cubic-bezier(.34,1.56,.64,1) both;
     }
     @keyframes bannerPop {
@@ -386,7 +394,12 @@
     @keyframes authOut { to{opacity:0;transform:scale(.94) translateY(-12px);} }
 
     .admin-tabs { display: flex; background: rgba(0,0,0,0.35); border: 1px solid var(--border); border-radius: 14px; padding: 4px; margin-bottom: 24px; gap: 4px; }
-    .admin-tab { flex: 1; padding: 10px; border: none; border-radius: 12px; background: transparent; color: var(--muted); font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all .3s cubic-bezier(.34,1.36,.64,1); }
+    .admin-tab {
+      flex: 1; padding: 10px; border: none; border-radius: 12px; background: transparent;
+      color: var(--muted); font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all .3s cubic-bezier(.34,1.36,.64,1);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
     .admin-tab.active { background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; box-shadow: 0 2px 16px rgba(139,92,246,0.45); transform: scale(1.02); }
     .admin-form-panel { display: none; }
     .admin-form-panel.active { display: block; animation: panelSlide .4s cubic-bezier(.34,1.2,.64,1) both; }
@@ -410,6 +423,92 @@
   <div id="bg-overlay"></div>
   <div id="particles"></div>
   <div id="toast"></div>
+
+  <!-- SVG symbol definitions -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="ic-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </symbol>
+    <symbol id="ic-megaphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 11l19-9-9 19-2-8-8-2z"/>
+    </symbol>
+    <symbol id="ic-file-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+    </symbol>
+    <symbol id="ic-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+    </symbol>
+    <symbol id="ic-book-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+    </symbol>
+    <symbol id="ic-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+    </symbol>
+    <symbol id="ic-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+    </symbol>
+    <symbol id="ic-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+    </symbol>
+    <symbol id="ic-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+    </symbol>
+    <symbol id="ic-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+    </symbol>
+    <symbol id="ic-lightbulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/>
+      <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>
+    </symbol>
+    <symbol id="ic-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+    </symbol>
+    <symbol id="ic-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+    </symbol>
+    <symbol id="ic-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+    </symbol>
+    <symbol id="ic-timer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/><path d="M12 2v3"/>
+    </symbol>
+    <symbol id="ic-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+    </symbol>
+    <symbol id="ic-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2c0 4-2 6-2 9a4 4 0 0 0 8 0c0-3-2-5-2-9"/><path d="M12 12c0 2-1 3-1 4.5a2.5 2.5 0 0 0 5 0C16 15 15 14 15 12"/>
+    </symbol>
+    <symbol id="ic-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+    </symbol>
+    <symbol id="ic-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </symbol>
+    <symbol id="ic-inbox" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>
+    </symbol>
+    <symbol id="ic-wifi-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.56 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>
+    </symbol>
+    <symbol id="ic-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+    </symbol>
+    <symbol id="ic-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </symbol>
+    <symbol id="ic-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+    </symbol>
+    <symbol id="ic-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+    </symbol>
+    <symbol id="ic-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>
+    </symbol>
+    <symbol id="ic-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </symbol>
+  </svg>
 
   <!-- ══ AUTH ══ -->
   <div id="page-auth">
@@ -447,7 +546,10 @@
         </div>
         <button class="btn btn-primary btn-full" onclick="doRegister()">Criar conta</button>
       </div>
-      <div class="auth-footer">Apenas membros da turma têm acesso 🔒</div>
+      <div class="auth-footer">
+        <svg width="12" height="12" style="color:var(--muted)"><use href="#ic-lock"/></svg>
+        Apenas membros da turma têm acesso
+      </div>
     </div>
   </div>
 
@@ -461,23 +563,32 @@
           <div class="topbar-sub" id="dash-role">Aluno</div>
         </div>
       </div>
-      <button class="logout-btn" onclick="doLogout()">Sair</button>
+      <button class="logout-btn" onclick="doLogout()">
+        <svg width="13" height="13"><use href="#ic-logout"/></svg>
+        Sair
+      </button>
     </div>
 
     <!-- Sugestões -->
     <div id="suggestions-header-panel" class="glass hidden" style="padding:18px;margin-bottom:22px;border-radius:16px">
       <div class="suggestions-header">
         <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-size:15px">💡</span>
-          <h3 style="font-size:13px;font-weight:700;margin:0;letter-spacing:0.3px">Sugestões & Melhorias</h3>
+          <svg width="15" height="15" style="color:#fbbf24"><use href="#ic-lightbulb"/></svg>
+          <h3 style="font-size:13px;font-weight:700;margin:0;letter-spacing:0.3px">Sugestões &amp; Melhorias</h3>
           <span id="notification-badge" class="notification-badge hidden">0</span>
         </div>
-        <button id="toggle-suggestions" class="btn btn-ghost btn-sm" onclick="toggleSuggestionsPanel()">📋 Ver</button>
+        <button id="toggle-suggestions" class="btn btn-ghost btn-sm" onclick="toggleSuggestionsPanel()">
+          <svg width="12" height="12"><use href="#ic-eye"/></svg>
+          Ver
+        </button>
       </div>
       <div id="suggestions-panel-content" style="display:none">
         <textarea id="suggestion-text" class="input" placeholder="Deixe sua sugestão para melhorar o site..." style="margin-bottom:10px;min-height:70px"></textarea>
         <div class="publish-actions">
-          <button id="suggest-btn" class="btn btn-primary btn-sm" style="flex:1" onclick="submitSuggestion()">Enviar Sugestão</button>
+          <button id="suggest-btn" class="btn btn-primary btn-sm" style="flex:1" onclick="submitSuggestion()">
+            <svg width="12" height="12"><use href="#ic-send"/></svg>
+            Enviar Sugestão
+          </button>
         </div>
         <div id="suggestions-list" style="margin-top:14px"></div>
       </div>
@@ -486,17 +597,38 @@
     <!-- Admin panel -->
     <div id="admin-panel" class="glass hidden" style="padding:24px;margin-bottom:26px">
       <div class="admin-tabs">
-        <button class="admin-tab active" onclick="switchAdminTab('publish')">✏️ Publicar</button>
-        <button class="admin-tab" onclick="switchAdminTab('books')">📚 Livros</button>
+        <button class="admin-tab active" onclick="switchAdminTab('publish')">
+          <svg width="13" height="13"><use href="#ic-pencil"/></svg>
+          Publicar
+        </button>
+        <button class="admin-tab" onclick="switchAdminTab('books')">
+          <svg width="13" height="13"><use href="#ic-book"/></svg>
+          Livros
+        </button>
       </div>
       <div id="tab-publish" class="admin-form-panel active">
         <div class="publish-card" style="padding:0;margin:0">
-          <h3>Publicar aviso, prova ou atividade</h3>
+          <h3>
+            <svg width="15" height="15" style="color:var(--purple2)"><use href="#ic-pencil"/></svg>
+            Publicar aviso, prova ou atividade
+          </h3>
           <div class="type-selector">
-            <button class="type-chip active" data-type="aviso" onclick="selectType(this)">📢 Avisos</button>
-            <button class="type-chip" data-type="prova" onclick="selectType(this)">📝 Provas</button>
-            <button class="type-chip" data-type="trabalho" onclick="selectType(this)">📁 Trabalhos</button>
-            <button class="type-chip" data-type="atividade" onclick="selectType(this)">📖 Atividades</button>
+            <button class="type-chip active" data-type="aviso" onclick="selectType(this)">
+              <svg width="11" height="11"><use href="#ic-megaphone"/></svg>
+              Avisos
+            </button>
+            <button class="type-chip" data-type="prova" onclick="selectType(this)">
+              <svg width="11" height="11"><use href="#ic-file-text"/></svg>
+              Provas
+            </button>
+            <button class="type-chip" data-type="trabalho" onclick="selectType(this)">
+              <svg width="11" height="11"><use href="#ic-folder"/></svg>
+              Trabalhos
+            </button>
+            <button class="type-chip" data-type="atividade" onclick="selectType(this)">
+              <svg width="11" height="11"><use href="#ic-book-open"/></svg>
+              Atividades
+            </button>
           </div>
           <textarea id="pub-text" class="input" placeholder="Digite o conteúdo..."></textarea>
           <div id="deadline-wrap" class="publish-deadline hidden">
@@ -511,7 +643,10 @@
       </div>
       <div id="tab-books" class="admin-form-panel">
         <div class="publish-card" style="padding:0;margin:0">
-          <h3>📚 Gerenciar Livros da Semana</h3>
+          <h3>
+            <svg width="15" height="15" style="color:var(--purple2)"><use href="#ic-book"/></svg>
+            Gerenciar Livros da Semana
+          </h3>
           <select id="book-day" class="input">
             <option value="segunda">Segunda-feira</option>
             <option value="terça">Terça-feira</option>
@@ -524,7 +659,10 @@
           <input id="book-subject" class="input" placeholder="Matéria (ex: Biologia)" />
           <input id="book-name" class="input" placeholder="Nome do Livro" />
           <div class="publish-actions">
-            <button id="add-book-btn" class="btn btn-primary" onclick="addBook()">Adicionar Livro</button>
+            <button id="add-book-btn" class="btn btn-primary" onclick="addBook()">
+              <svg width="13" height="13"><use href="#ic-plus"/></svg>
+              Adicionar Livro
+            </button>
           </div>
           <div id="current-books"></div>
         </div>
@@ -532,15 +670,34 @@
     </div>
 
     <div class="section-header">
-      <div class="section-title">📋 Mural da Turma <span class="count-badge" id="notices-count">0</span></div>
+      <div class="section-title" id="section-title-el">
+        <svg width="17" height="17" style="color:var(--purple2)"><use href="#ic-layout"/></svg>
+        Mural da Turma
+        <span class="count-badge" id="notices-count">0</span>
+      </div>
     </div>
     <div class="filter-bar">
       <button class="filter-chip active" data-filter="todos" onclick="setFilter(this)">Todos</button>
-      <button class="filter-chip" data-filter="aviso" onclick="setFilter(this)">📢 Avisos</button>
-      <button class="filter-chip" data-filter="prova" onclick="setFilter(this)">📝 Provas</button>
-      <button class="filter-chip" data-filter="trabalho" onclick="setFilter(this)">📁 Trabalhos</button>
-      <button class="filter-chip" data-filter="atividade" onclick="setFilter(this)">📖 Atividades</button>
-      <button class="filter-chip" data-filter="livros" onclick="setFilter(this)">📚 Livros</button>
+      <button class="filter-chip" data-filter="aviso" onclick="setFilter(this)">
+        <svg width="11" height="11"><use href="#ic-megaphone"/></svg>
+        Avisos
+      </button>
+      <button class="filter-chip" data-filter="prova" onclick="setFilter(this)">
+        <svg width="11" height="11"><use href="#ic-file-text"/></svg>
+        Provas
+      </button>
+      <button class="filter-chip" data-filter="trabalho" onclick="setFilter(this)">
+        <svg width="11" height="11"><use href="#ic-folder"/></svg>
+        Trabalhos
+      </button>
+      <button class="filter-chip" data-filter="atividade" onclick="setFilter(this)">
+        <svg width="11" height="11"><use href="#ic-book-open"/></svg>
+        Atividades
+      </button>
+      <button class="filter-chip" data-filter="livros" onclick="setFilter(this)">
+        <svg width="11" height="11"><use href="#ic-book"/></svg>
+        Livros
+      </button>
     </div>
     <div id="notices-list"></div>
   </div>
@@ -548,7 +705,10 @@
   <!-- Modal -->
   <div id="edit-modal" class="modal-overlay hidden">
     <div class="modal glass">
-      <div class="modal-title">✏️ Editar publicação</div>
+      <div class="modal-title">
+        <svg width="18" height="18" style="color:var(--purple2)"><use href="#ic-pencil"/></svg>
+        Editar publicação
+      </div>
       <textarea id="edit-text" class="input" style="min-height:110px;margin-bottom:16px"></textarea>
       <div style="display:flex;gap:10px">
         <button class="btn btn-primary" style="flex:1" onclick="saveEdit()">Salvar</button>
@@ -558,6 +718,11 @@
   </div>
 
   <script>
+    /* SVG icon helper */
+    function icon(id, size=13, color='currentColor') {
+      return `<svg width="${size}" height="${size}" style="color:${color};flex-shrink:0" aria-hidden="true"><use href="#${id}"/></svg>`;
+    }
+
     /* ══ SUPABASE ══ */
     const SUPABASE_URL = "https://nxdknoqzclpmvhxnfmfx.supabase.co";
     const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im54ZGtub3F6Y2xwbXZoeG5mbWZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzOTYzNDYsImV4cCI6MjA5MDk3MjM0Nn0.sqxj3TDjGSbEBo2hIZITD6locdOnuoto1y10wNf5_Qk";
@@ -616,7 +781,6 @@
     let currentUser=null, notices=[], books=[], suggestions=[];
     let currentFilter="todos", editingId=null, selectedType="aviso";
 
-    /* ══ AUTO-REFRESH (a cada hora) ══ */
     const REFRESH_INTERVAL_MS = 60 * 60 * 1000;
     let refreshTimer = null;
 
@@ -624,31 +788,21 @@
       stopAutoRefresh();
       refreshTimer = setTimeout(() => { silentRefresh(); }, REFRESH_INTERVAL_MS);
     }
-
     function stopAutoRefresh() {
       if (refreshTimer) { clearTimeout(refreshTimer); refreshTimer = null; }
     }
-
     async function silentRefresh() {
       try {
         const [freshNotices, freshBooks, freshSuggestions] = await Promise.all([
           DB.getNotices(), DB.getBooks(), DB.getSuggestions()
         ]);
-        notices = freshNotices;
-        books = freshBooks;
-        suggestions = freshSuggestions;
-        renderNotices(false);
-        renderBooks();
-        renderSuggestions();
-        updateNotificationBadge();
-        toast("🔄 Conteúdo atualizado automaticamente");
-      } catch(e) {
-        console.warn("Auto-refresh failed:", e);
-      }
+        notices = freshNotices; books = freshBooks; suggestions = freshSuggestions;
+        renderNotices(false); renderBooks(); renderSuggestions(); updateNotificationBadge();
+        toast("Conteúdo atualizado", "ic-refresh");
+      } catch(e) { console.warn("Auto-refresh failed:", e); }
       startAutoRefresh();
     }
 
-    /* ══ SORTING LOGIC ══ */
     const PRIORITY_TYPES = new Set(['prova', 'trabalho', 'atividade']);
     const FAR_FUTURE = '9999-99-99';
 
@@ -661,8 +815,7 @@
         if (aPriority && bPriority) {
           const aDue = normalizeDateIso(a.due_date) || FAR_FUTURE;
           const bDue = normalizeDateIso(b.due_date) || FAR_FUTURE;
-          const aOverdue = aDue < today;
-          const bOverdue = bDue < today;
+          const aOverdue = aDue < today; const bOverdue = bDue < today;
           if (aOverdue !== bOverdue) return aOverdue ? 1 : -1;
           if (aDue !== bDue) return aDue.localeCompare(bDue);
           return new Date(b.created_at) - new Date(a.created_at);
@@ -676,19 +829,17 @@
       const today = getTodayIso();
       const diff = daysUntil(dueDateIso, today);
       if (diff < 0) return '';
-      if (diff === 0) return `<span class="urgency-badge urgency-today">🔥 Hoje!</span>`;
-      if (diff <= 3) return `<span class="urgency-badge urgency-soon">⚡ ${diff} dias${diff>1?' restantes':' restante'}</span>`;
-      if (diff <= 7) return `<span class="urgency-badge urgency-upcoming">📅 ${diff} dias</span>`;
+      if (diff === 0) return `<span class="urgency-badge urgency-today">${icon('ic-flame',10,'currentColor')} Hoje!</span>`;
+      if (diff <= 3) return `<span class="urgency-badge urgency-soon">${icon('ic-timer',10,'currentColor')} ${diff} dia${diff>1?'s':''}</span>`;
+      if (diff <= 7) return `<span class="urgency-badge urgency-upcoming">${icon('ic-calendar',10,'currentColor')} ${diff} dias</span>`;
       return '';
     }
 
     function daysUntil(isoTarget, isoToday) {
-      const t = new Date(isoTarget + 'T00:00:00');
-      const n = new Date(isoToday + 'T00:00:00');
-      return Math.round((t - n) / 86400000);
+      return Math.round((new Date(isoTarget+'T00:00:00') - new Date(isoToday+'T00:00:00')) / 86400000);
     }
 
-    /* ══ PARTÍCULAS ══ */
+    /* Particles */
     (function(){
       const c=document.getElementById("particles");
       for(let i=0;i<40;i++){
@@ -742,7 +893,7 @@
         const existing=await DB.findUser(name);
         if(existing){shakeCard();return toast("Esse nome já está em uso.");}
         await DB.createUser(name,pass);
-        toast("Conta criada! Faça login. ✅"); switchTab("login");
+        toast("Conta criada! Faça login."); switchTab("login");
         document.getElementById("login-name").value=name;
       }catch(e){shakeCard();toast("Erro ao criar conta: "+e.message);}
       finally{setBtnLoading("reg-btn",false,"Criar conta");}
@@ -777,9 +928,7 @@
         dash.classList.remove("hidden"); dash.classList.add("entering");
         dash.addEventListener("animationend",()=>dash.classList.remove("entering"),{once:true});
       },{once:true});
-      showSkeletons();
-      loadAll();
-      startAutoRefresh();
+      showSkeletons(); loadAll(); startAutoRefresh();
     }
 
     function doLogout(){
@@ -794,24 +943,19 @@
         auth.style.animation="authCardIn .5s cubic-bezier(.34,1.36,.64,1) both";
         auth.addEventListener("animationend",()=>auth.style.animation="",{once:true});
         document.getElementById("login-pass").value="";
-        toast("Até logo! 👋");
+        toast("Até logo!");
       },{once:true});
     }
 
-    async function loadAll() {
-      await loadNotices();
-      await loadBooks();
-      await loadSuggestions();
-    }
+    async function loadAll() { await loadNotices(); await loadBooks(); await loadSuggestions(); }
 
     async function loadNotices(){
       try {
         notices = await DB.getNotices();
         renderNotices(true);
       } catch(e) {
-        console.error('Erro ao carregar avisos:', e);
         toast("Erro ao carregar avisos.");
-        document.getElementById("notices-list").innerHTML=`<div class="empty-state"><span class="emoji">⚠️</span><p>Não foi possível carregar. Verifique sua conexão.</p></div>`;
+        document.getElementById("notices-list").innerHTML=`<div class="empty-state"><div class="es-icon">${icon('ic-wifi-off',42,'var(--muted)')}</div><p>Não foi possível carregar. Verifique sua conexão.</p></div>`;
       }
     }
     async function loadBooks(){ try{ books=await DB.getBooks(); renderBooks(); if(currentFilter==="livros") renderNotices(false); }catch(e){ toast("Erro ao carregar livros."); } }
@@ -845,7 +989,7 @@
       try{
         const notice=await DB.createNotice(text,selectedType,currentUser.name,effectiveDueDate||null);
         notices.unshift(notice);
-        renderNotices(true); clearPublish(); toast("Publicado! 🎉"); bumpCount();
+        renderNotices(true); clearPublish(); toast("Publicado!"); bumpCount();
       }catch(e){ toast("Erro ao publicar: "+e.message); }
       finally{ setBtnLoading("pub-btn",false,"Publicar"); }
     }
@@ -869,7 +1013,7 @@
         books.push(book); renderBooks();
         if(currentFilter==="livros") renderNotices(false);
         document.getElementById("book-subject").value=""; document.getElementById("book-name").value="";
-        toast("Livro adicionado! ✅");
+        toast("Livro adicionado!");
       }catch(e){ toast("Erro ao adicionar livro: "+e.message); }
       finally{ setBtnLoading("add-book-btn",false,"Adicionar Livro"); }
     }
@@ -883,9 +1027,9 @@
     function renderBooks(){
       const list=document.getElementById("current-books");
       const days=["segunda","terça","quarta","quinta","sexta","sábado","domingo"];
-      if(!books.length){ list.innerHTML=`<div class="empty-state" style="padding:30px 0"><span class="emoji">📚</span><p>Nenhum livro cadastrado.</p></div>`; return; }
+      if(!books.length){ list.innerHTML=`<div class="empty-state" style="padding:30px 0"><div class="es-icon">${icon('ic-book',36,'var(--muted)')}</div><p>Nenhum livro cadastrado.</p></div>`; return; }
       const rows=books.slice().sort((a,b)=>{const d=days.indexOf(a.day_of_week)-days.indexOf(b.day_of_week); return d||a.subject.localeCompare(b.subject,'pt-BR');})
-        .map(b=>`<tr><td>${capitalizeDay(b.day_of_week)}</td><td>${esc(b.subject)}</td><td>${esc(b.book_name)}</td><td><button class="btn btn-danger btn-sm" onclick="deleteBook(${b.id})">Excluir</button></td></tr>`).join("");
+        .map(b=>`<tr><td>${capitalizeDay(b.day_of_week)}</td><td>${esc(b.subject)}</td><td>${esc(b.book_name)}</td><td><button class="btn btn-danger btn-sm" onclick="deleteBook(${b.id})">${icon('ic-x',11,'currentColor')}</button></td></tr>`).join("");
       list.innerHTML=`<div style="overflow-x:auto;margin-top:16px"><table class="books-table"><thead><tr><th>Dia</th><th>Matéria</th><th>Livro</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
     }
 
@@ -893,7 +1037,6 @@
     function saveDoneActivities(m){ if(!currentUser) return; localStorage.setItem(`tc_done_activities_${currentUser.name.toLowerCase()}`,JSON.stringify(m)); }
     function isActivityDone(id){ return !!getDoneActivities()[id]; }
 
-    /* ══ CONFETTI ══ */
     function launchConfetti(originX, originY) {
       const colors = ['#a78bfa','#c084fc','#10b981','#fbbf24','#f472b6','#60a5fa','#34d399','#f87171'];
       const count = 48;
@@ -915,19 +1058,17 @@
 
     function showDoneBanner() {
       const banner = document.createElement("div");
-      banner.innerHTML = `<span style="font-size:22px;">✅</span><span>Parabéns!</span>`;
-      banner.style.cssText="position:fixed;top:90%;left:50%;transform:translate(-50%,-50%) scale(0.9);display:flex;align-items:center;gap:6px;padding:10px 20px;background:linear-gradient(135deg,#a8edea,#fed6e3);color:#333;font-size:16px;font-weight:600;border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,0.18);z-index:9999;opacity:0;transition:all 0.35s ease;";
+      banner.className = "done-banner";
+      banner.innerHTML = `${icon('ic-check-circle',22,'#fff')}<span>Parabéns!</span>`;
       document.body.appendChild(banner);
-      setTimeout(()=>{ banner.style.opacity="1"; banner.style.transform="translate(-50%,-50%) scale(1)"; },50);
-      setTimeout(()=>{ banner.style.opacity="0"; banner.style.transform="translate(-50%,-50%) scale(0.9)"; },2200);
+      setTimeout(()=>{ banner.style.opacity="0"; banner.style.transform="translate(-50%,-50%) scale(0.9)"; banner.style.transition="all .35s ease"; },2200);
       setTimeout(()=>banner.remove(),2600);
     }
 
     async function toggleActivityDone(id, checkboxEl) {
       const m = getDoneActivities();
       const nowDone = !m[id];
-      m[id] = nowDone;
-      saveDoneActivities(m);
+      m[id] = nowDone; saveDoneActivities(m);
 
       if (nowDone) {
         const rect = checkboxEl ? checkboxEl.getBoundingClientRect() : { left: window.innerWidth/2, top: window.innerHeight/2 };
@@ -935,31 +1076,19 @@
         const card = checkboxEl ? checkboxEl.closest('.notice-card') : null;
         if (card) { card.classList.add('completing'); card.addEventListener('animationend',()=>card.classList.remove('completing'),{once:true}); }
         launchConfetti(cx, cy); showDoneBanner();
-
-        try {
-          await DB.markCompletion(id, currentUser.name);
-        } catch(e) {
-          console.error('Erro ao salvar conclusão:', e);
-          toast('Erro ao salvar conclusão. Tente novamente.');
-          m[id] = false; saveDoneActivities(m);
-        }
+        try { await DB.markCompletion(id, currentUser.name); }
+        catch(e) { toast('Erro ao salvar conclusão.'); m[id] = false; saveDoneActivities(m); }
       } else {
-        try {
-          await DB.unmarkCompletion(id, currentUser.name);
-        } catch(e) {
-          console.error('Erro ao remover conclusão:', e);
-          toast('Erro ao desmarcar. Tente novamente.');
-          m[id] = true; saveDoneActivities(m);
-        }
+        try { await DB.unmarkCompletion(id, currentUser.name); }
+        catch(e) { toast('Erro ao desmarcar.'); m[id] = true; saveDoneActivities(m); }
       }
-
       renderNotices(false);
     }
 
     function bumpCount(){ const el=document.getElementById("notices-count"); el.classList.remove("bump"); el.offsetHeight; el.classList.add("bump"); el.addEventListener("animationend",()=>el.classList.remove("bump"),{once:true}); }
 
     function openEdit(id){ const n=notices.find(x=>x.id===id); if(!n) return; editingId=id; document.getElementById("edit-text").value=n.text; document.getElementById("edit-modal").classList.remove("hidden"); }
-    async function saveEdit(){ const text=document.getElementById("edit-text").value.trim(); if(!text) return toast("O texto não pode estar vazio."); try{ const updated=await DB.updateNotice(editingId,text); const idx=notices.findIndex(x=>x.id===editingId); if(idx!==-1) notices[idx]=updated; renderNotices(false); closeModal(); toast("Aviso atualizado ✅"); }catch(e){ toast("Erro ao salvar: "+e.message); } }
+    async function saveEdit(){ const text=document.getElementById("edit-text").value.trim(); if(!text) return toast("O texto não pode estar vazio."); try{ const updated=await DB.updateNotice(editingId,text); const idx=notices.findIndex(x=>x.id===editingId); if(idx!==-1) notices[idx]=updated; renderNotices(false); closeModal(); toast("Aviso atualizado"); }catch(e){ toast("Erro ao salvar: "+e.message); } }
     function closeModal(){ const m=document.getElementById("edit-modal"); m.style.animation="fadeBg .2s ease reverse forwards"; m.addEventListener("animationend",()=>{ m.classList.add("hidden"); m.style.animation=""; editingId=null; },{once:true}); }
     async function deleteNotice(id){ if(!confirm("Excluir esta publicação?")) return; const card=document.querySelector(`[data-id="${id}"]`); const doDelete=async()=>{ try{ await DB.deleteNotice(id); notices=notices.filter(x=>x.id!==id); renderNotices(false); toast("Publicação excluída."); bumpCount(); }catch(e){ toast("Erro ao excluir: "+e.message); } }; if(card){ card.classList.add("card-exit"); card.addEventListener("animationend",doDelete,{once:true}); }else doDelete(); }
 
@@ -970,8 +1099,7 @@
       list.style.opacity="0"; list.style.transform="translateY(14px)";
       setTimeout(()=>{
         list.style.transition="opacity 0.35s ease,transform 0.35s cubic-bezier(.34,1.2,.64,1)";
-        renderNotices(true);
-        list.style.opacity="1"; list.style.transform="translateY(0)";
+        renderNotices(true); list.style.opacity="1"; list.style.transform="translateY(0)";
         setTimeout(()=>{ list.style.transition=""; list.style.opacity=""; list.style.transform=""; },400);
       },80);
     }
@@ -982,7 +1110,7 @@
       const text=document.getElementById("suggestion-text").value.trim();
       if(!text) return toast("Escreva uma sugestão antes de enviar.");
       setBtnLoading("suggest-btn",true,"Enviando...");
-      try{ const suggestion=await DB.createSuggestion(text,currentUser.name); suggestions.unshift(suggestion); renderSuggestions(); updateNotificationBadge(); document.getElementById("suggestion-text").value=""; toast("Sugestão enviada! 🙌"); }
+      try{ const suggestion=await DB.createSuggestion(text,currentUser.name); suggestions.unshift(suggestion); renderSuggestions(); updateNotificationBadge(); document.getElementById("suggestion-text").value=""; toast("Sugestão enviada!"); }
       catch(e){ toast("Erro ao enviar sugestão: "+e.message); }
       finally{ setBtnLoading("suggest-btn",false,"Enviar Sugestão"); }
     }
@@ -995,7 +1123,7 @@
       list.innerHTML=visible.map(s=>{
         const rel=relativeTime(new Date(s.created_at));
         const canDelete=currentUser?.isAdmin||s.author===currentUser?.name;
-        const delBtn=canDelete?`<button class="btn btn-danger btn-sm" onclick="deleteSuggestion(${s.id})">🗑</button>`:"";
+        const delBtn=canDelete?`<button class="btn btn-danger btn-sm" onclick="deleteSuggestion(${s.id})">${icon('ic-x',11,'currentColor')}</button>`:"";
         return `<div style="background:rgba(255,255,255,.03);border:1px solid rgba(139,92,246,.18);border-radius:10px;padding:12px;margin-bottom:10px">
           <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px">
             <div><div style="font-size:12px;font-weight:700;color:var(--purple2)">${esc(s.author)}</div><div style="font-size:10px;color:var(--muted)">${rel}</div></div>${delBtn}
@@ -1017,7 +1145,9 @@
       const btn=document.getElementById("toggle-suggestions");
       const isHidden=content.style.display==="none";
       content.style.display=isHidden?"block":"none";
-      btn.textContent=isHidden?"📋 Fechar":"📋 Ver";
+      btn.innerHTML = isHidden
+        ? `${icon('ic-eye-off',12,'currentColor')} Fechar`
+        : `${icon('ic-eye',12,'currentColor')} Ver`;
     }
 
     function toggleDeadlineInput(){
@@ -1030,25 +1160,27 @@
     }
 
     const TYPE_CONFIG={
-      aviso:    {emoji:"📢",label:"Aviso",     pill:"pill-aviso"},
-      prova:    {emoji:"📝",label:"Prova",     pill:"pill-prova"},
-      trabalho: {emoji:"📁",label:"Trabalho",  pill:"pill-trabalho"},
-      atividade:{emoji:"📖",label:"Atividade", pill:"pill-atividade"},
+      aviso:    {iconId:"ic-megaphone", label:"Aviso",     pill:"pill-aviso",    color:"#fbbf24"},
+      prova:    {iconId:"ic-file-text", label:"Prova",     pill:"pill-prova",    color:"#f43f5e"},
+      trabalho: {iconId:"ic-folder",    label:"Trabalho",  pill:"pill-trabalho", color:"#22c55e"},
+      atividade:{iconId:"ic-book-open", label:"Atividade", pill:"pill-atividade",color:"var(--purple2)"},
     };
 
     function renderNotices(animate){
       const list=document.getElementById("notices-list");
-      const title=document.querySelector(".section-title");
+      const titleEl=document.getElementById("section-title-el");
 
       if(currentFilter==="livros"){
-        title.innerHTML=`📚 Livros da semana <span class="count-badge" id="notices-count">${books.length}</span>`;
-        if(!books.length){ list.innerHTML=`<div class="empty-state"><span class="emoji">📚</span><p>Nenhum livro necessário.</p></div>`; return; }
+        titleEl.innerHTML=`${icon('ic-book',17,'var(--purple2)')} Livros da semana <span class="count-badge" id="notices-count">${books.length}</span>`;
+        if(!books.length){ list.innerHTML=`<div class="empty-state"><div class="es-icon">${icon('ic-book',42,'var(--muted)')}</div><p>Nenhum livro necessário.</p></div>`; return; }
         const days=["segunda","terça","quarta","quinta","sexta","sábado","domingo"];
         const grouped={}; days.forEach(d=>grouped[d]=[]); books.forEach(b=>{ if(grouped[b.day_of_week]) grouped[b.day_of_week].push(b); });
         Object.keys(grouped).forEach(day=>{ grouped[day].sort((a,b)=>a.subject.localeCompare(b.subject,'pt-BR')); });
         list.innerHTML=days.filter(day=>grouped[day].length>0).map(day=>`
           <div class="notice-card glass" style="margin-bottom:14px;padding:20px">
-            <div style="font-size:14px;font-weight:800;color:var(--purple2);margin-bottom:14px">📅 ${capitalizeDay(day)}</div>
+            <div style="font-size:14px;font-weight:800;color:var(--purple2);margin-bottom:14px;display:flex;align-items:center;gap:7px">
+              ${icon('ic-calendar',14,'var(--purple3)')} ${capitalizeDay(day)}
+            </div>
             <div>${grouped[day].map(b=>`<div style="padding:8px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,.05);display:flex;gap:12px">
               <span style="color:var(--purple2);font-weight:700;min-width:80px">${esc(b.subject)}:</span>
               <span>${esc(b.book_name)}</span></div>`).join("")}</div>
@@ -1058,27 +1190,28 @@
 
       const raw = currentFilter==="todos" ? notices : notices.filter(n=>n.type===currentFilter);
       const filtered = sortNotices(raw);
-
       const hasPriorityItems = filtered.some(n => PRIORITY_TYPES.has(n.type));
       const sortLabel = hasPriorityItems
-        ? `<span class="sort-indicator">⬆️ Por urgência</span>`
-        : `<span class="sort-indicator">🕐 Mais recentes</span>`;
+        ? `<span class="sort-indicator">${icon('ic-arrow-up',10,'currentColor')} Por urgência</span>`
+        : `<span class="sort-indicator">${icon('ic-clock',10,'currentColor')} Mais recentes</span>`;
 
-      title.innerHTML=`📋 Mural da Turma <span class="count-badge" id="notices-count">${filtered.length}</span>${sortLabel}`;
+      titleEl.innerHTML=`${icon('ic-layout',17,'var(--purple2)')} Mural da Turma <span class="count-badge" id="notices-count">${filtered.length}</span>${sortLabel}`;
       list.classList.toggle("panel-slide-in",animate); if(animate) list.offsetHeight;
-      if(!filtered.length){ list.innerHTML=`<div class="empty-state"><span class="emoji">📭</span><p>Nenhuma publicação aqui ainda.</p></div>`; return; }
+      if(!filtered.length){ list.innerHTML=`<div class="empty-state"><div class="es-icon">${icon('ic-inbox',42,'var(--muted)')}</div><p>Nenhuma publicação aqui ainda.</p></div>`; return; }
 
       list.innerHTML=filtered.map((n,i)=>{
         const cfg=TYPE_CONFIG[n.type]||TYPE_CONFIG.aviso;
         const rel=relativeTime(new Date(n.created_at));
         const dueDateIso=normalizeDateIso(n.due_date);
         const deadlineText=dueDateIso?formatDatePtBr(dueDateIso):"";
-        const deadlineInfo=dueDateIso?`<div class="notice-deadline ${isPastDue(dueDateIso)?"overdue":""}">⏳ Término: ${deadlineText}</div>`:"";
+        const deadlineInfo=dueDateIso?`<div class="notice-deadline ${isPastDue(dueDateIso)?"overdue":""}">${icon('ic-timer',11,'currentColor')} Término: ${deadlineText}</div>`:"";
         const urgencyBadge = PRIORITY_TYPES.has(n.type) ? getUrgencyBadge(dueDateIso) : '';
         const delay=animate?`animation-delay:${i*.07}s`:"animation:none";
-        const admin=currentUser?.isAdmin?`<button class="btn btn-ghost btn-sm" onclick="openEdit('${n.id}')">✏️ <span>Editar</span></button><button class="btn btn-danger btn-sm" onclick="deleteNotice('${n.id}')">🗑 <span>Excluir</span></button>`:"";
+        const admin=currentUser?.isAdmin
+          ? `<button class="btn btn-ghost btn-sm" onclick="openEdit('${n.id}')">${icon('ic-pencil',12,'currentColor')} <span>Editar</span></button><button class="btn btn-danger btn-sm" onclick="deleteNotice('${n.id}')">${icon('ic-trash',12,'currentColor')} <span>Excluir</span></button>`
+          : "";
         const done=n.type==='atividade'&&isActivityDone(n.id);
-        const doneBadge=done?`<span class="notice-type-pill" style="background:rgba(16,185,129,.1);color:#10b981;border-color:rgba(16,185,129,.25);">✔️ Concluída</span>`:'';
+        const doneBadge=done?`<span class="notice-type-pill" style="background:rgba(16,185,129,.1);color:#10b981;border-color:rgba(16,185,129,.25);">${icon('ic-check-circle',10,'currentColor')} Concluída</span>`:'';
         const activityToggle=n.type==='atividade'?`<label class="activity-marker ${done?'done':''}"><input type="checkbox" ${done?'checked':''} onchange="toggleActivityDone('${n.id}', this)" /><span>${done?'Você concluiu esta atividade':'Marcar atividade como concluída'}</span></label>`:'';
 
         return `<div class="notice-card glass card-enter ${done?'done-activity':''}" data-id="${n.id}" style="${delay}">
@@ -1090,7 +1223,7 @@
                 ${n.edited?'<span style="font-size:10px;color:var(--muted)">(editado)</span>':""}
               </div>
               <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:4px">
-                <span class="notice-type-pill ${cfg.pill}">${cfg.emoji} ${cfg.label}</span>
+                <span class="notice-type-pill ${cfg.pill}">${icon(cfg.iconId,10,cfg.color)} ${cfg.label}</span>
                 ${doneBadge}
                 ${urgencyBadge}
               </div>
@@ -1113,7 +1246,12 @@
     function isPastDue(isoDate){ return isoDate<getTodayIso(); }
 
     let toastTimer;
-    function toast(msg){ const el=document.getElementById("toast"); el.textContent=msg; el.classList.add("show"); clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove("show"),3200); }
+    function toast(msg, iconId=null){
+      const el=document.getElementById("toast");
+      el.innerHTML=(iconId?icon(iconId,13,'currentColor'):'') + esc(msg);
+      el.classList.add("show"); clearTimeout(toastTimer);
+      toastTimer=setTimeout(()=>el.classList.remove("show"),3200);
+    }
     function setBtnLoading(id,loading,label){ const btn=document.getElementById(id); if(!btn) return; btn.disabled=loading; btn.textContent=label; btn.style.opacity=loading?".7":"1"; }
 
     document.addEventListener("DOMContentLoaded",()=>{
